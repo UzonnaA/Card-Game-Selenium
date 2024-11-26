@@ -3,6 +3,7 @@ package org.example;
 
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Main {
 
@@ -339,9 +340,11 @@ public class Main {
     public volatile String inputJS = "";
     public String returnJS = "";
     private List<String> consoleOutputArray = new ArrayList<>();
-    private List<String> inputArray = new ArrayList<>();
+    public volatile Queue<String> inputQueue = new ConcurrentLinkedQueue<>();
 
-    private int currentInputIndex = 0;
+    public volatile boolean recentInput = false;
+
+    //private int currentInputIndex = 0;
     private int currentIndex = 0;
     private int lastestIndex = 0;
 
@@ -809,6 +812,8 @@ public class Main {
         DrawPlayEvents(input, output, null);
     }
 
+    // A3
+
     public void AskForSponsor(Scanner input, PrintWriter output, String defaultAnswer) {
         int denied = 0;
         Player currentAsk = currentPlayer;
@@ -824,10 +829,16 @@ public class Main {
                 choice = 1;
             }
 
+            // How I'll handle the JS control flow
+
+            if(usingJS){
+
+            }
+
             // If we're not doing an A-TEST, ask the player normally
             // If we are doing an A-TEST, force P1 to say No and P2 to say Yes
             // ATEST CHECK
-            if (!(ATEST || ATEST2 || ATEST3 || ATEST4)) {
+            if (!(ATEST || ATEST2 || ATEST3 || ATEST4 || usingJS)) {
                 try {
                     if (input.hasNextInt()) {
                         choice = input.nextInt();
@@ -2774,8 +2785,6 @@ public class Main {
         }
 
         if(usingJS){
-            System.out.println("Wait function called");
-            
             ShowHand(input, output, p.getName(), true);
         }
         
@@ -2850,14 +2859,32 @@ public class Main {
         return null;
     }
 
+    // A3
+
     public String getOutput() {
         return getConsoleOutput();
     }
 
-    public void sendInput(String input) {
-        //inputJS = input; // Store the input
+    public synchronized void sendInput(String input) {
         System.out.println("Input received: " + input);
-        inputArray.add(input);
+        inputQueue.offer(input);
+        recentInput = true;
+        this.notifyAll();
+    }
+
+    public synchronized String waitForInput() {
+        System.out.println("Waiting for input...");
+        while (!recentInput) {
+            try {
+                wait(); // Wait until notified by sendInput
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("Interrupted while waiting for input.");
+                return null; // Return null if interrupted
+            }
+        }
+        recentInput = false; // Reset the flag after receiving input
+        return inputQueue.poll(); // Return the next input
     }
 
     public void js_print(String message, boolean cls) {
