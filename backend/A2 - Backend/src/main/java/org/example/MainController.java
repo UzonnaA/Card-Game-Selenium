@@ -30,11 +30,17 @@ public class MainController {
     @GetMapping("/start")
     public String startGame() {
         resetGame();
-        game.usingJS = true;
-        game.InitializeDeck();
-        game.StartGame();
-        
-        latestMessage = "";
+        game.usingJS = true; // Indicate that the game is running in a browser environment
+        System.out.println("Start button hit");
+
+        // Run the game logic on a separate thread
+        new Thread(() -> {
+            game.InitializeDeck();
+            game.StartGame();
+        }).start();
+
+        // Immediately return a response to the frontend
+        latestMessage = "Game started.";
         return latestMessage;
     }
 

@@ -711,6 +711,10 @@ public class Main {
             event = "Q3";
         }
 
+        if(usingJS){
+            event = "Q2";
+        }
+
 
 
         String defaultAnswer = "NO";
@@ -800,7 +804,7 @@ public class Main {
             output.println("We will now look for sponsors." );
             js_print("We will now look for sponsors.", false);
             if(!testKey.equals("SimpleTest")){
-                //AskForSponsor(input, output, defaultAnswer);
+                AskForSponsor(input, output, defaultAnswer);
             }
 
         }
@@ -820,6 +824,7 @@ public class Main {
 
         while (denied < 4) {
             output.println(currentAsk.getName() + ": Would you like to sponsor the quest? (Enter 0 for No, 1 for Yes): ");
+            js_print(currentAsk.getName() + ": Would you like to sponsor the quest? (Enter 0 for No, 1 for Yes): ", true);
 
             // Default to no if something goes wrong
             int choice;
@@ -832,7 +837,8 @@ public class Main {
             // How I'll handle the JS control flow
 
             if(usingJS){
-
+                System.out.println("Now testing input ...");
+                choice = Integer.parseInt(waitForInput());
             }
 
             // If we're not doing an A-TEST, ask the player normally
@@ -878,6 +884,7 @@ public class Main {
 
             if(choice == 1 && !canSponsorQuest(currentAsk, stages)){
                 output.println(currentAsk.getName() + " cannot sponsor this quest.");
+                js_print(currentAsk.getName() + " cannot sponsor this quest.", false);
                 choice = 0;
 
                 if(testKey.equals("NoSponsor")){
@@ -888,19 +895,21 @@ public class Main {
             // If the player says yes, we end the function
             if (choice == 1 && canSponsorQuest(currentAsk, stages)) {
                 output.println(currentAsk.getName() + " has agreed to sponsor the quest!");
+                js_print(currentAsk.getName() + " has agreed to sponsor the quest!", false);
                 currentAsk.isSponsor = true;
                 currentSponsor = currentAsk;
 
                 if(runBuild){
-                    BuildQuest(input, output, currentAsk, stages);
+                    //BuildQuest(input, output, currentAsk, stages);
                 }
 
 
-                AskForAttack(input, output, defaultAnswer);
+                //AskForAttack(input, output, defaultAnswer);
                 break;
             } else if (choice == 0) {
                 // If they say no, move to the next player
                 output.println(currentAsk.getName() + " has declined to sponsor the quest.");
+                js_print(currentAsk.getName() + " has declined to sponsor the quest.", false);
                 denied++;
                 currentAsk = NextPlayer(currentAsk);
             }
@@ -2874,7 +2883,7 @@ public class Main {
 
     public synchronized String waitForInput() {
         System.out.println("Waiting for input...");
-        while (!recentInput) {
+        while (!recentInput && inputQueue.isEmpty()) {
             try {
                 wait(); // Wait until notified by sendInput
             } catch (InterruptedException e) {
@@ -2886,6 +2895,7 @@ public class Main {
         recentInput = false; // Reset the flag after receiving input
         return inputQueue.poll(); // Return the next input
     }
+
 
     public void js_print(String message, boolean cls) {
         if (consoleOutputArray.isEmpty()) {

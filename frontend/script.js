@@ -10,6 +10,7 @@ document.getElementById("start-game-btn").addEventListener("click", async () => 
         // Hide the start button and show the game console
         document.getElementById("start-game-btn").style.display = "none";
         document.getElementById("game-console").style.display = "block";
+        console.log("Start button hit")
 
         await fetchAndUpdatePlayerStats();
     } catch (error) {
@@ -36,6 +37,7 @@ async function fetchAndUpdatePlayerStats() {
                 <p>Cards: ${player.cards}</p>
             `;
             statsContainer.appendChild(playerDiv);
+            console.log("Player stats loaded")
         });
     } catch (error) {
         console.error("Error fetching player stats:", error);
