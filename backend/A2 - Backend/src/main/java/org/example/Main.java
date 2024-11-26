@@ -336,10 +336,18 @@ public class Main {
     // These variables are for Assignment 3 (A3)
     // This will let the game know we're using JS
     public boolean usingJS = false;
-    public String inputJS = "";
+    public volatile String inputJS = "";
     public String returnJS = "";
+    private List<String> consoleOutputArray = new ArrayList<>();
+    private List<String> inputArray = new ArrayList<>();
 
-    public int controlFlowJS = 0;
+    private int currentInputIndex = 0;
+    private int currentIndex = 0;
+    private int lastestIndex = 0;
+
+    // May not use these
+    public volatile int controlFlowJS = 0;
+    public volatile int lastControlFlow = 0;
 
     Scanner global_input = new Scanner(System.in);
     PrintWriter gloabl_output = new PrintWriter(System.out, true);
@@ -491,21 +499,27 @@ public class Main {
         // Output whose turn it is
         if(newTurn){
             output.println(player.getName() + "'s Turn:");
-            js_print(player.getName() + "'s Turn:");
+            js_print(player.getName() + "'s Turn:", true);
         }else{
             output.println(player.getName() + "'s Hand:");
-            js_print(player.getName() + "'s Hand:");
+            js_print(player.getName() + "'s Hand:", true);
         }
 
         // Display the player's hand in the format: (1)F5, (2)F10, (3)Sword, (4)Horse
         for (int i = 0; i < playerHand.size(); i++) {
             output.print("(" + (i + 1) + ")" + playerHand.get(i).getName());
+            JSP_sameln("(" + (i + 1) + ")" + playerHand.get(i).getName(), false);
             if (i < playerHand.size() - 1) {
                 output.print(", ");
+                JSP_sameln(", ", false);
             }
         }
         output.println();  // Add newline after listing cards
-        js_print("");
+        js_print(" ", false);
+
+        if(usingJS){
+            DrawPlayEvents(input, output, null);
+        }
     }
 
 
@@ -725,18 +739,20 @@ public class Main {
 
         // Output the event card
         output.println("Drew event card: " + lastEventCard);
-        js_print("Drew event card: " + lastEventCard);
+        js_print("Drew event card: " + lastEventCard, false);
 
         if(!isQuest){
             // Handle specific events
             if (lastEventCard.equals("Plague")) {
                 currentPlayer.changeShields(-2);
                 output.println(currentPlayer.getName() + " lost 2 shields!");
+                js_print(currentPlayer.getName() + " lost 2 shields!", false);
             }
 
             // Handle specific events
             if (lastEventCard.equals("Queen's Favor")) {
                 output.println(currentPlayer.getName() + " will draw 2 cards.");
+                js_print(currentPlayer.getName() + " will draw 2 cards.", false);
                 if(!ATEST3){
                     giveCards(currentPlayer, 2, input, output);
                 }else{
@@ -749,6 +765,7 @@ public class Main {
             // Handle specific events
             if (lastEventCard.equals("Prosperity")) {
                 output.println("All players will draw 2 cards.");
+                js_print("All players will draw 2 cards.", false);
                 for(Player p: players.values()){
                     if(!ATEST3){
                         giveCards(p, 2, input, output);
@@ -778,8 +795,9 @@ public class Main {
 
         }else{
             output.println("We will now look for sponsors." );
+            js_print("We will now look for sponsors.", false);
             if(!testKey.equals("SimpleTest")){
-                AskForSponsor(input, output, defaultAnswer);
+                //AskForSponsor(input, output, defaultAnswer);
             }
 
         }
@@ -2722,8 +2740,7 @@ public class Main {
     public void areYouReady(Scanner input, PrintWriter output, Player p){
         // This will ensure the player choosing cards can ready up
         output.println("Press Enter to continue.");
-        int last = controlFlowJS;
-        js_print("Press Enter to continue.");
+        js_print("Press Enter to continue.", true);
 
         if (!usingJS){
              // Check if input is available before calling nextLine
@@ -2736,13 +2753,14 @@ public class Main {
             clearScreen(output, 50);
         } else{
             
+            inputJS = "";
         }
 
        
 
         // This will ensure the player choosing cards can ready up
         output.println("Are you ready, " + p.getName() + "? Press Enter to continue.");
-        js_print("Are you ready, " + p.getName() + "? Press Enter to continue.");
+        js_print("Are you ready, " + p.getName() + "? Press Enter to continue.", true);
 
         if(!usingJS){
             // Check if input is available before calling nextLine
@@ -2756,6 +2774,8 @@ public class Main {
         }
 
         if(usingJS){
+            System.out.println("Wait function called");
+            
             ShowHand(input, output, p.getName(), true);
         }
         
@@ -2834,20 +2854,59 @@ public class Main {
         return getConsoleOutput();
     }
 
-    public void sendInput(String input){
-        inputJS = input;
-        controlFlowJS += 1;
+    public void sendInput(String input) {
+        //inputJS = input; // Store the input
+        System.out.println("Input received: " + input);
+        inputArray.add(input);
     }
 
-    public void js_print(String message) {
-        consoleOutput.append(message).append("\n");
+    public void js_print(String message, boolean cls) {
+        if (consoleOutputArray.isEmpty()) {
+            consoleOutputArray.add(message);
+        } else {
+            
+            if(cls == false){
+                String currentMessage = consoleOutputArray.get(lastestIndex);
+                consoleOutputArray.set(lastestIndex, currentMessage + "\n" + message);
+            }else{
+                consoleOutputArray.add(message + "\n");
+                lastestIndex++;
+            }
+            
+        }
+    }
+
+    public void JSP_sameln(String message, boolean cls) {
+        if (consoleOutputArray.isEmpty()) {
+            consoleOutputArray.add(message);
+        } else {
+            
+            if(cls == false){
+                String currentMessage = consoleOutputArray.get(lastestIndex);
+                consoleOutputArray.set(lastestIndex, currentMessage + message);
+            }else{
+                consoleOutputArray.add(message);
+                lastestIndex++;
+            }
+            
+        }
+    }
+
+    public void incrementArrayIndex() {
+        currentIndex++;
+        if (consoleOutputArray.size() <= currentIndex) {
+            currentIndex = consoleOutputArray.size() - 1;
+        }
     }
     
     public String getConsoleOutput() {
-        String output = consoleOutput.toString();
-        consoleOutput.setLength(0); // Clear after fetching
-        return output;
+        if (currentIndex < consoleOutputArray.size()) {
+            return consoleOutputArray.get(currentIndex);
+        }
+        return "";
     }
+
+    
 
     
 

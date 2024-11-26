@@ -33,6 +33,7 @@ public class MainController {
         game.usingJS = true;
         game.InitializeDeck();
         game.StartGame();
+        
         latestMessage = "";
         return latestMessage;
     }
@@ -44,7 +45,7 @@ public class MainController {
 
     @PostMapping("/input")
     public String handleInput(@RequestParam String input) {
-        // Process the input and update the game state
+        System.out.println("Input received from frontend: " + input);
         game.sendInput(input);
         latestMessage = game.getOutput();
         return latestMessage;
@@ -78,5 +79,10 @@ public class MainController {
     @GetMapping("/console")
     public String getConsoleOutput() {
         return game.getConsoleOutput();
+    }
+
+    @PostMapping("/increment")
+    public void incrementConsoleIndex() {
+        game.incrementArrayIndex();
     }
 }

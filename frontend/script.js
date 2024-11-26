@@ -3,18 +3,14 @@ const apiBaseUrl = "http://localhost:8080"; // Update if the backend address cha
 // Start the game
 document.getElementById("start-game-btn").addEventListener("click", async () => {
     try {
-        // Call the backend to start the game
         const response = await fetch(`${apiBaseUrl}/start`);
         const message = await response.text();
-        
-        // Update game message
         document.getElementById("game-message").innerText = message;
 
         // Hide the start button and show the game console
-        document.getElementById("start-game-btn").style.display = "none"; // Hide the start button
-        document.getElementById("game-console").style.display = "block"; // Show the game console
+        document.getElementById("start-game-btn").style.display = "none";
+        document.getElementById("game-console").style.display = "block";
 
-        // Fetch and display player stats
         await fetchAndUpdatePlayerStats();
     } catch (error) {
         console.error("Error starting game:", error);
@@ -53,23 +49,19 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
     if (!userInput.trim()) return;
 
     try {
-        // Send input to backend for processing
         const response = await fetch(`${apiBaseUrl}/input?input=${encodeURIComponent(userInput)}`, {
             method: "POST",
         });
         const message = await response.text();
         document.getElementById("game-message").innerText = message;
-
-        // Clear input field
-        document.getElementById("user-input").value = "";
-
-        // Signal backend that input is ready
-        await fetch(`${apiBaseUrl}/signal`, { method: "POST" });
-
+        document.getElementById("user-input").value = ""; // Clear input field
     } catch (error) {
         console.error("Error submitting input:", error);
     }
 });
+
+
+
 
 // Poll for console output
 async function fetchConsoleOutput() {
@@ -78,9 +70,9 @@ async function fetchConsoleOutput() {
         const consoleOutput = await response.text();
 
         if (consoleOutput.trim()) {
-            // Update the game message area with new output
+            // Update the game message area with new output, clearing the previous content
             const gameMessage = document.getElementById("game-message");
-            gameMessage.innerText += consoleOutput;
+            gameMessage.innerText = consoleOutput; // Replace existing content
 
             // Scroll to the bottom of the output
             gameMessage.scrollTop = gameMessage.scrollHeight;
@@ -91,5 +83,17 @@ async function fetchConsoleOutput() {
 }
 
 // Start polling for console output every second
-setInterval(fetchConsoleOutput, 3000);
+setInterval(fetchConsoleOutput, 1000);
+
+
+async function incrementConsoleIndex() {
+    try {
+        await fetch(`${apiBaseUrl}/increment`, { method: "POST" });
+        await fetchConsoleOutput(); // Fetch and display the new output
+    } catch (error) {
+        console.error("Error incrementing console index:", error);
+    }
+}
+
+document.getElementById("next-btn").addEventListener("click", incrementConsoleIndex);
 
