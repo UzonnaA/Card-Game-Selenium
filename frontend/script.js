@@ -44,6 +44,9 @@ async function fetchAndUpdatePlayerStats() {
     }
 }
 
+// Start polling for console output every second
+setInterval(fetchAndUpdatePlayerStats, 1000);
+
 
 
 document.getElementById("submit-btn").addEventListener("click", async () => {

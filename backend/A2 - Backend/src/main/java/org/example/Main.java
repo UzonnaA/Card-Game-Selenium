@@ -219,6 +219,7 @@ public class Main {
 
                 // Display the player's hand
                 // ATEST CHECK
+                diffPageCards = false;
                 ShowHand(input, output, getName(), false);
                 if(!testingOverload && (!(ATEST || ATEST2 || ATEST3 || ATEST4 || usingJS))){
                     try {
@@ -238,7 +239,7 @@ public class Main {
                 }
 
                 if(usingJS){
-                    choice = Integer.parseInt(waitForInput());
+                    choice = Integer.parseInt(waitForInput()) - 1;
                 }
 
 
@@ -250,12 +251,12 @@ public class Main {
                 clearScreen(output, 50);
 
                 // If the player is still overloaded, this loop continues
-
+                js_print("Card " + (choice + 1) + " was deleted. Hit enter.", false);
 
             }
 
             output.println(getName() + " no longer has too many cards.");
-            js_print(getName() + " no longer has too many cards.", true);
+            js_print(getName() + " no longer has too many cards.", false);
             cardsBeforeLargeAdd = 12;
             setOverloaded(false);
 
@@ -731,7 +732,7 @@ public class Main {
         }
 
         if(usingJS){
-            event = "Q2";
+            //event = "Q2";
         }
 
 
@@ -923,7 +924,7 @@ public class Main {
                 }
 
 
-                //AskForAttack(input, output, defaultAnswer);
+                AskForAttack(input, output, defaultAnswer);
                 break;
             } else if (choice == 0) {
                 // If they say no, move to the next player
@@ -944,7 +945,7 @@ public class Main {
         }
     }
 
-    // A3
+    
 
     public void BuildQuest(Scanner input, PrintWriter output, Player sponsor, int stages) {
         //List<AdventureCard> usedCards = new ArrayList<>();  // To store all used cards for the quest
@@ -1189,7 +1190,7 @@ public class Main {
                         if (choice.equalsIgnoreCase("Quit")) {
                             if(currentStageValue == 0){
                                 output.println("A stage cannot be empty.");
-                                js_print("A stage cannot be empty.", true);
+                                js_print("A stage cannot be empty.", false);
 
                                 if(testKey.equals("NoEmpty")){
                                     break;
@@ -1200,7 +1201,7 @@ public class Main {
 
                             if (!hasFoe) {
                                 output.println("You must include at least one Foe card for this stage.");
-                                js_print("You must include at least one Foe card for this stage.", true);
+                                js_print("You must include at least one Foe card for this stage.", false);
                                 continue;  // Force them to choose a Foe card
                             }
                             if (currentStageValue <= previousStageValue) {
@@ -1241,7 +1242,7 @@ public class Main {
                             if (chosenCard.getType().equals("Weapon")) {
                                 if (usedWeaponNames.contains(chosenCard.getName())) {
                                     output.println("You cannot use the same weapon (" + chosenCard.getName() + ") more than once in a stage.");
-                                    js_print("You cannot use the same weapon (" + chosenCard.getName() + ") more than once in a stage.", true);
+                                    js_print("You cannot use the same weapon (" + chosenCard.getName() + ") more than once in a stage.", false);
                                     continue;  // Prompt the player to choose another card
                                 } else {
                                     usedWeaponNames.add(chosenCard.getName());  // Mark this weapon as used
@@ -1257,7 +1258,11 @@ public class Main {
 
                             // Re-display the player's hand and the cards used for this stage
                             clearScreen(output, 50);
-                            ShowHand(input, output, sponsor.getName(), false);
+                            if(!usingJS){
+                                ShowHand(input, output, sponsor.getName(), false);
+                            }
+                            js_print("Added " + chosenCard.getName() +". Hit enter.", false);
+                            
 
 
                             if(testKey.equals("SelectCard")){
@@ -1285,7 +1290,7 @@ public class Main {
                 previousStageValue = currentStageValue;
 
                 output.println("Stage " + stage + " completed with total value: " + currentStageValue);
-                js_print("Stage " + stage + " completed with total value: " + currentStageValue, true);
+                js_print("Stage " + stage + " completed with total value: " + currentStageValue, false);
 
             }
         }
@@ -1370,6 +1375,7 @@ public class Main {
             if(!p.isSponsor){
                 clearScreen(output, 50);
                 output.println(p.getName() + ": Would you like to attack the quest? (Enter 0 for No, 1 for Yes): ");
+                js_print(p.getName() + ": Would you like to attack the quest? (Enter 0 for No, 1 for Yes): ", true);
 
                 // Default to no if something goes wrong
                 int choice;
@@ -1379,8 +1385,12 @@ public class Main {
                 }else{
                     choice = 1;
                 }
+
+                if(usingJS){
+                    choice = Integer.parseInt(waitForInput());
+                }
                 // ATEST CHECK
-                if (!(ATEST || ATEST2 || ATEST3 || ATEST4)) {
+                if (!(ATEST || ATEST2 || ATEST3 || ATEST4 || usingJS)) {
                     try {
                         if (input.hasNextInt()) {
                             choice = input.nextInt();
@@ -1415,10 +1425,12 @@ public class Main {
                 // If the player says yes, we end the function
                 if (choice == 1) {
                     output.println(p.getName() + " has agreed to attack the quest!");
+                    js_print(p.getName() + " has agreed to attack the quest!", false);
                     p.isAttacker = true;
                 } else if (choice == 0) {
                     // If they say no, move to the next player
                     output.println(p.getName() + " has declined to attack the quest.");
+                    js_print(p.getName() + " has declined to attack the quest.", false);
                     denied++;
                 }
                 //clearScreen(output);
@@ -1430,6 +1442,7 @@ public class Main {
         // If all players deny, handle that case
         if (denied == 3) {
             output.println("All players have declined to attack the quest.");
+            js_print("All players have declined to attack the quest.", true);
             isQuest = false;
             // If we do nothing, it should send us all the way back to the function we call
         }else{
@@ -1442,25 +1455,6 @@ public class Main {
         }
     }
 
-//    public boolean canAttackQuest(Player player, int stages){
-//        List<AdventureCard> foes = new ArrayList<>(); // do I need this? Not really.
-//        List<AdventureCard> weapons = new ArrayList<>();
-//
-//        // Separate the player's cards into foes and weapons
-//        for (AdventureCard card : player.getDeck()) {
-//            if (card.getType().equals("Foe")) {
-//                foes.add(card);
-//            } else if (card.getType().equals("Weapon")) {
-//                weapons.add(card);
-//            }
-//        }
-//
-//        if(weapons.size() < stages){
-//            return false;
-//        }else{
-//            return true;
-//        }
-//    }
 
     // All the "every round" code needs to be a loop from 0 > stages
     public void doQuest(Scanner input, PrintWriter output, String defaultAnswer){
@@ -1473,9 +1467,18 @@ public class Main {
         }
 
         // Once, print all the players in the quest
+        int tmp = 0;
         for(Player p: players.values()){
             if(p.isAttacker){
                 output.println(p.getName() + " will be attacking the quest.");
+
+                if(tmp == 0){
+                    js_print(p.getName() + " will be attacking the quest.", true);
+                    tmp++;
+                }else{
+                    js_print(p.getName() + " will be attacking the quest.", false);
+                }
+                
             }
         }
 
@@ -1486,6 +1489,7 @@ public class Main {
         // This for loop forces things to happen every round
         for(int stage = 1; stage <= stages && !questShouldStop; stage++){
             output.println("--- Stage " + stage + " ---");
+            js_print("--- Stage " + stage + " ---", true);
 
             // Here we check if there are attackers left
             int attackers_left = 0;
@@ -1496,6 +1500,7 @@ public class Main {
             }
             if(attackers_left == 0){
                 output.println("No more attackers. The quest ends here.");
+                js_print("No more attackers. The quest ends here.", false);
                 isQuest = false;
                 break;
             }
@@ -1508,6 +1513,7 @@ public class Main {
                     // ATEST CHECK
                     if(!(ATEST || ATEST2 || ATEST3 || ATEST4)){
                         output.println(p.getName() + " has received a card for agreeing to attack the stage.");
+                        js_print(p.getName() + " has received a card for agreeing to attack the stage.", true);
                         giveCards(p,1, input, output);
                     }else{
                         output.println(p.getName() + " has received a card for agreeing to attack the stage.");
@@ -1829,13 +1835,24 @@ public class Main {
                         // Show hand and let player select cards
                         output.println("--- Stage " + stage + " ---");
                         output.println("Choose a WEAPON card by its number to attack Stage " + stage + " or type 'Quit' to finish your attack:");
+                        js_print("--- Stage " + stage + " ---", true);
+                        js_print("Choose a WEAPON card by its number to attack Stage " + stage + " or type 'Quit' to finish your attack:", false);
+                        
+                        diffPageCards = false;
                         ShowHand(input, output, p.getName(), false);
+                        
                         output.println("Stage " + stage + " attacking cards: " + currentStage.stream().map(AdventureCard::getName).toList());
+                        js_print("Stage " + stage + " attacking cards: " + currentStage.stream().map(AdventureCard::getName).toList(), false);
 
                         // Choice logic
                         String choice = null;
                         // ATEST CHECK
-                        if (!(ATEST || ATEST2 || ATEST3 || ATEST4)) {
+
+                        if(usingJS){
+                            choice = waitForInput();
+                        }
+
+                        if (!(ATEST || ATEST2 || ATEST3 || ATEST4 || usingJS)) {
                             try {
                                 choice = input.nextLine().trim();  // Try to read the input
 
@@ -1855,7 +1872,7 @@ public class Main {
                                 }
 
                                 if(testKey.equals("AttackReady") ){
-                                    output.println(p.getName() + "'s attack is ready with a value of " + attackValue);
+                                    output.println(p.getName() + "'s attack is ready with a value of " + attackValue + ". Hit enter.");
                                     break;
                                 }
 
@@ -2531,10 +2548,12 @@ public class Main {
                         if (choice.equalsIgnoreCase("Quit")) {
                             if (attackValue == 0 && !(ATEST2)) {
                                 output.println("You need at least one weapon card to attack.");
+                                js_print("You need at least one weapon card to attack.", false);
                                 continue;
                             }
                             attackReady = true;
                             output.println(p.getName() + "'s attack is ready with a value of " + attackValue);
+                            js_print(p.getName() + "'s attack is ready with a value of " + attackValue, false);
 
 
                         }else{
@@ -2545,11 +2564,13 @@ public class Main {
                                 if(!testKey.equals("LowValue") && !testKey.equals("HighValue") ){
                                     if (chosenCard.getType().equals("Foe")) {
                                         output.println("You cannot use a Foe card to attack.");
+                                        js_print("You cannot use a Foe card to attack.", false);
                                         continue;  // Restart the logic
                                     }
 
                                     if (usedWeaponNames.contains(chosenCard.getName())) {
                                         output.println("You cannot use the same weapon (" + chosenCard.getName() + ") more than once.");
+                                        js_print("You cannot use the same weapon (" + chosenCard.getName() + ") more than once.", false);
                                         continue;  // Restart the logic
                                     }
                                 }
@@ -2575,6 +2596,7 @@ public class Main {
                                     // Once you choose a valid card, you lose it forever
                                     p.removeFromDeck(chosenCard);
                                     output.println(p.getName() + " added " + chosenCard.getName() + " to their attack.");
+                                    js_print(p.getName() + " added " + chosenCard.getName() + " to their attack. Hit enter.", false);
                                     currentStage.add(chosenCard);
 
                                 }
@@ -2584,6 +2606,7 @@ public class Main {
 
                             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                                 output.println("Invalid input. Please choose a valid card number.");
+                                js_print("Invalid input. Please choose a valid card number.", false);
                             }
                         }
 
@@ -2604,6 +2627,7 @@ public class Main {
                     if (p.currentAttackValue < stageValue) {
 
                         output.println(p.getName() + " failed to match the stage value and is eliminated.");
+                        js_print(p.getName() + " failed to match the stage value and is eliminated.", true);
                         p.isAttacker = false;  // Mark as ineligible for further stages
 
                         if(testKey.equals("LowValue")){
@@ -2612,6 +2636,7 @@ public class Main {
                         }
                     } else {
                         output.println(p.getName() + " passed the stage!");
+                        js_print(p.getName() + " passed the stage!", true);
                         if(testKey.equals("HighValue")){
                             questShouldStop = true;
                             break;
@@ -2631,6 +2656,7 @@ public class Main {
 
             if (!attackersRemain) {
                 output.println("No more attackers. The quest ends here.");
+                js_print("No more attackers. The quest ends here.", true);
                 isQuest = false;
                 break;
             }
@@ -2639,14 +2665,19 @@ public class Main {
                 if(p.isAttacker && stage < stages){
                     // Every round, the winners can choose to continue (or not)
                     output.println(p.getName() + ": Would you like to attack the next stage? (Enter 0 for No, 1 for Yes): ");
+                    js_print(p.getName() + ": Would you like to attack the next stage? (Enter 0 for No, 1 for Yes): ", true);
                     int choice;
                     if(testKey.equals("dropout")){
                         choice = 0;
                     }else{
                         choice = 1;
                     }
+
+                    if(usingJS){
+                        choice = Integer.parseInt(waitForInput());
+                    }
                     // ATEST CHECK
-                    if (!(ATEST || ATEST2 || ATEST3 || ATEST4)) {
+                    if (!(ATEST || ATEST2 || ATEST3 || ATEST4 || usingJS)) {
                         try {
                             if (input.hasNextInt()) {
                                 choice = input.nextInt();
@@ -2666,9 +2697,11 @@ public class Main {
                     // If the player says yes, we don't need to do anything
                     if (choice == 1) {
                         output.println(p.getName() + " has agreed to attack the next stage!");
+                        js_print(p.getName() + " has agreed to attack the next stage!", false);
                     } else if (choice == 0) {
                         // If they say no, they are no longer an attacker
                         output.println(p.getName() + " has declined to attack the next stage.");
+                        js_print(p.getName() + " has declined to attack the next stage.", false);
                         p.isAttacker = false;
                     }
                 }
@@ -2682,6 +2715,7 @@ public class Main {
             if (p.isAttacker) {
                 p.changeShields(stages);  // Award shields equal to the number of stages
                 output.println(p.getName() + " is awarded " + stages + " shields for completing the quest.");
+                js_print(p.getName() + " is awarded " + stages + " shields for completing the quest.", true);
                 p.isAttacker = false;
             }
         }
@@ -2690,6 +2724,7 @@ public class Main {
         if(!(ATEST2 || ATEST3)){
             int sponsorCards = builtQuestCards.size() + stages;
             output.println(currentSponsor.getName() + " will now gain " + sponsorCards + " cards for sponsoring the quest.");
+            js_print(currentSponsor.getName() + " will now gain " + sponsorCards + " cards for sponsoring the quest.", true);
             giveCards(currentSponsor, sponsorCards, input, output);
         } else if(ATEST2){
             // Here we give specific cards to sponsor once the quest is done
@@ -2751,6 +2786,12 @@ public class Main {
 
 
         output.println("The quest has ended.");
+        js_print("The quest has ended.", true);
+
+        if(usingJS){
+            checkForWinners(input, output);
+        }
+        // A3
 
         // The function should end here
     }
@@ -2830,7 +2871,10 @@ public class Main {
 
         if(usingJS){
             diffPageCards = true;
-            ShowHand(input, output, p.getName(), true);
+            if(p.getName().equals(currentPlayer.getName()) && !p.isOverloaded){
+                ShowHand(input, output, p.getName(), true);
+            }
+            
         }
         
     }
@@ -2851,11 +2895,6 @@ public class Main {
             activePlayer = currentPlayer;
 //            clearScreen(output);
 //            output.println("Are you ready " + currentPlayer.getName() + "? Press enter to continue.");
-
-            if(usingJS && !finished){
-                shouldDoEvents = true;
-                areYouReady(input, output, currentPlayer);
-            }
 
         }else{
             // Otherwise, I'll assume that person will just be in the hotseast and not having a turn
@@ -2887,6 +2926,7 @@ public class Main {
             if(p.getShields() >= 7){
                 p.setWinner(true);
                 output.println(p.getName() + " is a winner!");
+                js_print(p.getName() + " is a winner!", true);
                 oneWinner = true;
             }
         }
@@ -2896,6 +2936,11 @@ public class Main {
         }else{
             currentPlayer = players.get(NextPlayerString(currentPlayer.getName()));
             activePlayer = currentPlayer;
+        }
+
+        if(usingJS && !finished){
+            shouldDoEvents = true;
+            areYouReady(input, output, currentPlayer);
         }
     }
 

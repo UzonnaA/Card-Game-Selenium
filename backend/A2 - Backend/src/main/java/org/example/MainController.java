@@ -87,8 +87,8 @@ public class MainController {
         return game.getConsoleOutput();
     }
 
-    // @PostMapping("/increment")
-    // public void incrementConsoleIndex() {
-    //     game.incrementArrayIndex();
-    // }
+    @PostMapping("/increment")
+    public void incrementConsoleIndex() {
+        game.incrementArrayIndex();
+    }
 }
