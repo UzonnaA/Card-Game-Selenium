@@ -215,11 +215,12 @@ public class Main {
             while (getCardCount() > 12) {
                 int choice = 0;
                 output.println(getName() + "'s hand has too many cards. Choose a card to delete by its number:");
+                js_print(getName() + "'s hand has too many cards. Choose a card to delete by its number:", true);
 
                 // Display the player's hand
                 // ATEST CHECK
                 ShowHand(input, output, getName(), false);
-                if(!testingOverload && (!(ATEST || ATEST2 || ATEST3 || ATEST4))){
+                if(!testingOverload && (!(ATEST || ATEST2 || ATEST3 || ATEST4 || usingJS))){
                     try {
                         if (input.hasNextInt()) {
                             choice = input.nextInt() - 1;  // Read input and subtract 1 for 0-based indexing
@@ -236,6 +237,10 @@ public class Main {
                     }
                 }
 
+                if(usingJS){
+                    choice = Integer.parseInt(waitForInput());
+                }
+
 
                 // Remove the chosen card
                 removeCardByIndex(choice);
@@ -250,6 +255,7 @@ public class Main {
             }
 
             output.println(getName() + " no longer has too many cards.");
+            js_print(getName() + " no longer has too many cards.", true);
             cardsBeforeLargeAdd = 12;
             setOverloaded(false);
 
@@ -341,6 +347,11 @@ public class Main {
     public String returnJS = "";
     private List<String> consoleOutputArray = new ArrayList<>();
     public volatile Queue<String> inputQueue = new ConcurrentLinkedQueue<>();
+
+    public boolean shouldDoEvents = true;
+    
+    // Cards should be shown on the same page if we're not doing an areyouready check
+    public boolean diffPageCards = false; 
 
     public volatile boolean recentInput = false;
 
@@ -502,10 +513,10 @@ public class Main {
         // Output whose turn it is
         if(newTurn){
             output.println(player.getName() + "'s Turn:");
-            js_print(player.getName() + "'s Turn:", true);
+            js_print(player.getName() + "'s Turn:", diffPageCards);
         }else{
             output.println(player.getName() + "'s Hand:");
-            js_print(player.getName() + "'s Hand:", true);
+            js_print(player.getName() + "'s Hand:", diffPageCards);
         }
 
         // Display the player's hand in the format: (1)F5, (2)F10, (3)Sword, (4)Horse
@@ -520,9 +531,16 @@ public class Main {
         output.println();  // Add newline after listing cards
         js_print(" ", false);
 
-        if(usingJS){
-            DrawPlayEvents(input, output, null);
+        if(diffPageCards == true){
+            diffPageCards = false;
         }
+
+        if(usingJS && shouldDoEvents){
+            DrawPlayEvents(input, output);
+        }
+
+        
+
     }
 
 
@@ -685,6 +703,7 @@ public class Main {
         // If the event is null, draw a card from the event deck (default behavior)
         ArrayList<String> questNames = new ArrayList<>();
         questNames.add("Q2"); questNames.add("Q3"); questNames.add("Q4"); questNames.add("Q5");
+        shouldDoEvents = false;
 
         if(ATEST2 && testQuestNumber == 2){
             event = "Q3";
@@ -816,7 +835,7 @@ public class Main {
         DrawPlayEvents(input, output, null);
     }
 
-    // A3
+    
 
     public void AskForSponsor(Scanner input, PrintWriter output, String defaultAnswer) {
         int denied = 0;
@@ -900,7 +919,7 @@ public class Main {
                 currentSponsor = currentAsk;
 
                 if(runBuild){
-                    //BuildQuest(input, output, currentAsk, stages);
+                    BuildQuest(input, output, currentAsk, stages);
                 }
 
 
@@ -920,9 +939,12 @@ public class Main {
         // If all players deny, handle that case
         if (denied == 4) {
             output.println("All players have declined to sponsor the quest.");
+            js_print("All players have declined to sponsor the quest.", false);
             isQuest = false;
         }
     }
+
+    // A3
 
     public void BuildQuest(Scanner input, PrintWriter output, Player sponsor, int stages) {
         //List<AdventureCard> usedCards = new ArrayList<>();  // To store all used cards for the quest
@@ -948,14 +970,17 @@ public class Main {
                 boolean hasFoe = false;  // Ensure at least one Foe card is used
 
                 output.println("Building Stage " + stage + " for " + sponsor.getName() + ":");
+                js_print("Building Stage " + stage + " for " + sponsor.getName() + ":", true);
 
                 if(!testKey.equals("SponsorPrompt")){
                     while (true) {
                         // Show sponsor's hand
                         clearScreen(output, 2);
                         output.println("Choose a card by its number to add to Stage " + stage + " or type 'Quit' to finish this stage:");
+                        js_print("\nChoose a card by its number to add to Stage " + stage + " or type 'Quit' to finish this stage:", true);
                         ShowHand(input, output, sponsor.getName(), false);
                         output.println("Stage " + stage + " cards: " + currentStage.stream().map(AdventureCard::getName).toList());
+                        js_print("Stage " + stage + " cards: " + currentStage.stream().map(AdventureCard::getName).toList(), false);
 
 
                         String choice = null;
@@ -963,7 +988,12 @@ public class Main {
                         // If we're not in an A-TEST, build normally
                         // If we are, force the sponsor (P2) to build as requested
                         // ATEST CHECK
-                        if (!(ATEST || ATEST2 || ATEST3 || ATEST4)) {
+
+                        if(usingJS){
+                            choice = waitForInput();
+                        }
+
+                        if (!(ATEST || ATEST2 || ATEST3 || ATEST4 || usingJS)) {
                             try {
                                 choice = input.nextLine().trim();
                                     // Try to read the input
@@ -1159,6 +1189,7 @@ public class Main {
                         if (choice.equalsIgnoreCase("Quit")) {
                             if(currentStageValue == 0){
                                 output.println("A stage cannot be empty.");
+                                js_print("A stage cannot be empty.", true);
 
                                 if(testKey.equals("NoEmpty")){
                                     break;
@@ -1169,11 +1200,14 @@ public class Main {
 
                             if (!hasFoe) {
                                 output.println("You must include at least one Foe card for this stage.");
+                                js_print("You must include at least one Foe card for this stage.", true);
                                 continue;  // Force them to choose a Foe card
                             }
                             if (currentStageValue <= previousStageValue) {
                                 output.println("Insufficient value for this stage.");
+                                js_print("Insufficient value for this stage.", true);
                                 output.println("The total value of this stage must be higher than the previous stage (" + previousStageValue + ").");
+                                js_print("The total value of this stage must be higher than the previous stage (" + previousStageValue + ").", false);
                                 if(ATEST2){
                                     ATestValueTracker = 2;
                                 }
@@ -1207,6 +1241,7 @@ public class Main {
                             if (chosenCard.getType().equals("Weapon")) {
                                 if (usedWeaponNames.contains(chosenCard.getName())) {
                                     output.println("You cannot use the same weapon (" + chosenCard.getName() + ") more than once in a stage.");
+                                    js_print("You cannot use the same weapon (" + chosenCard.getName() + ") more than once in a stage.", true);
                                     continue;  // Prompt the player to choose another card
                                 } else {
                                     usedWeaponNames.add(chosenCard.getName());  // Mark this weapon as used
@@ -1237,6 +1272,7 @@ public class Main {
                             }
 
                         }
+                        
                     }
                 }
 
@@ -1249,6 +1285,7 @@ public class Main {
                 previousStageValue = currentStageValue;
 
                 output.println("Stage " + stage + " completed with total value: " + currentStageValue);
+                js_print("Stage " + stage + " completed with total value: " + currentStageValue, true);
 
             }
         }
@@ -1256,6 +1293,7 @@ public class Main {
 
 
         output.println("Quest built successfully! Stages: " + stageValues);
+        js_print("Quest built successfully! Stages: " + stageValues, true);
 
 
     }
@@ -2771,10 +2809,7 @@ public class Main {
             }
 
             clearScreen(output, 50);
-        } else{
-            
-            inputJS = "";
-        }
+        } 
 
        
 
@@ -2794,6 +2829,7 @@ public class Main {
         }
 
         if(usingJS){
+            diffPageCards = true;
             ShowHand(input, output, p.getName(), true);
         }
         
@@ -2815,6 +2851,11 @@ public class Main {
             activePlayer = currentPlayer;
 //            clearScreen(output);
 //            output.println("Are you ready " + currentPlayer.getName() + "? Press enter to continue.");
+
+            if(usingJS && !finished){
+                shouldDoEvents = true;
+                areYouReady(input, output, currentPlayer);
+            }
 
         }else{
             // Otherwise, I'll assume that person will just be in the hotseast and not having a turn
@@ -2935,6 +2976,7 @@ public class Main {
             currentIndex = consoleOutputArray.size() - 1;
         }
     }
+
     
     public String getConsoleOutput() {
         if (currentIndex < consoleOutputArray.size()) {

@@ -40,7 +40,7 @@ public class MainController {
         }).start();
 
         // Immediately return a response to the frontend
-        latestMessage = "Game started.";
+        latestMessage = "";
         return latestMessage;
     }
 
@@ -87,8 +87,8 @@ public class MainController {
         return game.getConsoleOutput();
     }
 
-    @PostMapping("/increment")
-    public void incrementConsoleIndex() {
-        game.incrementArrayIndex();
-    }
+    // @PostMapping("/increment")
+    // public void incrementConsoleIndex() {
+    //     game.incrementArrayIndex();
+    // }
 }
