@@ -26,6 +26,8 @@ async function runTest1() {
         await verifyMessage(messageBoard, "Would you like to sponsor the quest", "keepClicking worked");
         await submitText(textField, submitButton, driver, "0");
         await verifyMessage(messageBoard, "has declined to sponsor", "sendKeys worked");
+
+        // Make a submitTextBulk function that can take an array an input all the values
         
     } catch (error) {
         console.error("Test encountered an error:", error);
@@ -71,11 +73,21 @@ async function verifyMessage(messageBoard, includesText, successMessage) {
     }
 }
 
-async function submitText(textField, submitButton,driver, message) {
+async function submitText(textField, submitButton, driver, message) {
     await textField.clear();
     await textField.sendKeys(message);
     await submitButton.click();
     await driver.sleep(1000);
+}
+
+async function submitTextBulk(textField, submitButton, driver, enterButton, inputArray) {
+    for(let i = 0; i < inputArray.length; i++){
+        await textField.clear();
+        await textField.sendKeys(inputArray[i]);
+        await submitButton.click();
+        await driver.sleep(1000);
+        await keepClicking(driver);
+    }
 }
 
 runTest1();
