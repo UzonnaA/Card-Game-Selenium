@@ -3039,9 +3039,9 @@ public class Main {
         for (String hand : playerHands.values()) {
             allHands.append(hand).append("\n");
         }
-
-        consoleOutputArray.add(allHands.toString().trim());
-        lastestIndex++;
+        String currentMessage = consoleOutputArray.get(currentIndex);
+        consoleOutputArray.set(currentIndex, currentMessage + "\n" + allHands.toString().trim());
+        
     
     }
 
@@ -3080,7 +3080,8 @@ public class Main {
         if (currentIndex < consoleOutputArray.size() && currentIndex >= 0) {
             return consoleOutputArray.get(currentIndex);
         }else{
-            return String.valueOf(currentIndex);
+            // return String.valueOf(currentIndex);
+            return "";
         }
         
     }

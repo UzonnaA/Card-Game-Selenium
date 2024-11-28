@@ -90,10 +90,10 @@ public class MainController {
         return players;
     }
 
-    @PostMapping("/signal")
-    public void signalJsInput() {
-        //game.signalJsInputReceived();
-    }
+    // @PostMapping("/signal")
+    // public void signalJsInput() {
+    //     //game.signalJsInputReceived();
+    // }
 
 
     private void resetGame() {
@@ -107,9 +107,9 @@ public class MainController {
         return game.getConsoleOutput();
     }
 
-    @PostMapping("/hand")
+    @PostMapping("/hands")
     public void getHands() {
-        // game.displayAllHands();
+        game.displayAllHands();
     }
 
     @PostMapping("/increment")
