@@ -341,6 +341,13 @@ public class Main {
     // These variables are for Assignment 3 (A3)
     // This will let the game know we're using JS
     public boolean usingJS = false;
+    
+    public boolean Test1_JS = false; // Exact same as A-Test
+    public boolean Test2_JS = false;
+    public boolean Test3_JS = false;
+    public boolean Test4_JS = false;
+   
+
     public volatile String inputJS = "";
     public String returnJS = "";
     private List<String> consoleOutputArray = new ArrayList<>();
@@ -441,7 +448,7 @@ public class Main {
         stageValues = new ArrayList<>();
         builtQuestCards = new ArrayList<>();
 
-        if(ATEST){
+        if(ATEST || Test1_JS){
             testSponsor = "Player 2";
             testAlt = "Player 1";
         }
@@ -615,7 +622,7 @@ public class Main {
         }
 
         // Only for the A-Test, we'll reset the random cards
-        if(ATEST || ATEST2 || ATEST3 || ATEST4){
+        if(ATEST || ATEST2 || ATEST3 || ATEST4 || Test1_JS){
             for(Player p: players.values()){
                 p.RigDeck();
             }
@@ -729,8 +736,8 @@ public class Main {
             event = "Q3";
         }
 
-        if(usingJS){
-            //event = "Q2";
+        if(Test1_JS){
+            event = "Q4";
         }
 
 

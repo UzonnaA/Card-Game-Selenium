@@ -50,7 +50,7 @@ async function fetchAndUpdatePlayerStats() {
 }
 
 // Start polling for console output every second
-setInterval(fetchAndUpdatePlayerStats, 1000);
+setInterval(fetchAndUpdatePlayerStats, 400);
 
 
 
@@ -95,7 +95,7 @@ async function fetchConsoleOutput() {
 }
 
 // Start polling for console output every second
-setInterval(fetchConsoleOutput, 1000);
+setInterval(fetchConsoleOutput, 400);
 
 
 async function incrementConsoleIndex() {

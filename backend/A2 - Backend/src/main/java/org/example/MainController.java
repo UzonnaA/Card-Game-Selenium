@@ -48,17 +48,6 @@ public class MainController {
             }
         }).start();
 
-        // // Wait for initialization
-        // synchronized (game) {
-        //     while (game.players == null || game.players.isEmpty()) {
-        //         try {
-        //             Thread.sleep(100); // Small delay to allow players to initialize
-        //         } catch (InterruptedException e) {
-        //             Thread.currentThread().interrupt();
-        //         }
-        //     }
-        // }
-
         // Immediately return a response to the frontend
         latestMessage = "";
         return latestMessage;
@@ -80,6 +69,9 @@ public class MainController {
     @GetMapping("/players")
     public List<Map<String, Object>> getPlayers() {
         List<Map<String, Object>> players = new ArrayList<>();
+        if(game.players.values() == null){
+            return null;
+        }
         for (Player player : game.players.values()) {
             Map<String, Object> playerData = new HashMap<>();
             playerData.put("name", player.getName());
@@ -128,22 +120,24 @@ public class MainController {
     @GetMapping("/start1")
     public String startGame1() {
         resetGame();
-        game.ATEST = true;
-        System.out.println("Start button hit");
+        System.out.println("Test 1 now running");
 
         // Run the game logic on a separate thread
         new Thread(() -> {
+            game.usingJS = true;
+            game.Test1_JS = true; 
             game.InitializeDeck();
             game.StartGame();
 
-            StringWriter output = new StringWriter();
-            String input = "\n";
-
-            // Normal game loop, but no looping is needed for the test
-            game.areYouReady(new Scanner(input), new PrintWriter(output), game.getCurrentPlayer());
-            game.ShowHand(new Scanner(input), new PrintWriter(output), game.getCurrentPlayer().getName(), true);
-            game.DrawPlayEvents(new Scanner(input), new PrintWriter(output), "Q4"); //Needs to be a Q4 event
-            game.checkForWinners(new Scanner(input), new PrintWriter(output));
+            Scanner input = new Scanner(System.in);
+            PrintWriter output = new PrintWriter(System.out, true);
+            
+            game.areYouReady(input, output, game.getCurrentPlayer());
+            game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
+            game.DrawPlayEvents(input, output, "Q4");
+            game.checkForWinners(input, output);
+                
+            
         }).start();
 
         // Immediately return a response to the frontend
