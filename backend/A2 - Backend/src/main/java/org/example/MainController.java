@@ -1,10 +1,7 @@
 package org.example;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.StringWriter;
 //import java.io.PrintWriter;
 import java.util.*;
 
@@ -37,7 +34,30 @@ public class MainController {
         new Thread(() -> {
             game.InitializeDeck();
             game.StartGame();
+
+            Scanner input = new Scanner(System.in);
+            PrintWriter output = new PrintWriter(System.out, true);
+            while (!game.finished) {
+                game.areYouReady(input, output, game.getCurrentPlayer());
+                game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
+                game.DrawPlayEvents(input, output, null);
+                game.checkForWinners(input, output);
+                if(game.finished){
+                    break;
+                }
+            }
         }).start();
+
+        // // Wait for initialization
+        // synchronized (game) {
+        //     while (game.players == null || game.players.isEmpty()) {
+        //         try {
+        //             Thread.sleep(100); // Small delay to allow players to initialize
+        //         } catch (InterruptedException e) {
+        //             Thread.currentThread().interrupt();
+        //         }
+        //     }
+        // }
 
         // Immediately return a response to the frontend
         latestMessage = "";
@@ -87,8 +107,47 @@ public class MainController {
         return game.getConsoleOutput();
     }
 
+    @PostMapping("/hand")
+    public void getHands() {
+        // game.displayAllHands();
+    }
+
     @PostMapping("/increment")
     public void incrementConsoleIndex() {
         game.incrementArrayIndex();
+    }
+
+    @PostMapping("/decrement")
+    public void decrementConsoleIndex() {
+        game.decrementArrayIndex();
+    }
+
+    // Everything here is for the tests
+    // Remember that that tests 2-4 need to be redone
+
+    @GetMapping("/start1")
+    public String startGame1() {
+        resetGame();
+        game.ATEST = true;
+        System.out.println("Start button hit");
+
+        // Run the game logic on a separate thread
+        new Thread(() -> {
+            game.InitializeDeck();
+            game.StartGame();
+
+            StringWriter output = new StringWriter();
+            String input = "\n";
+
+            // Normal game loop, but no looping is needed for the test
+            game.areYouReady(new Scanner(input), new PrintWriter(output), game.getCurrentPlayer());
+            game.ShowHand(new Scanner(input), new PrintWriter(output), game.getCurrentPlayer().getName(), true);
+            game.DrawPlayEvents(new Scanner(input), new PrintWriter(output), "Q4"); //Needs to be a Q4 event
+            game.checkForWinners(new Scanner(input), new PrintWriter(output));
+        }).start();
+
+        // Immediately return a response to the frontend
+        latestMessage = "";
+        return latestMessage;
     }
 }

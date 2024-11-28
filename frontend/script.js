@@ -1,5 +1,6 @@
 const apiBaseUrl = "http://localhost:8080"; // Update if the backend address changes
 
+
 // Start the game
 document.getElementById("start-game-btn").addEventListener("click", async () => {
     try {
@@ -9,9 +10,13 @@ document.getElementById("start-game-btn").addEventListener("click", async () => 
 
         // Hide the start button and show the game console
         document.getElementById("start-game-btn").style.display = "none";
+        document.getElementById("test1").style.display = "none";
+        document.getElementById("test2").style.display = "none";
+        document.getElementById("test3").style.display = "none";
+        document.getElementById("test4").style.display = "none";
         document.getElementById("game-console").style.display = "block";
         console.log("Start button hit")
-
+        gameStarted = true;
         await fetchAndUpdatePlayerStats();
     } catch (error) {
         console.error("Error starting game:", error);
@@ -37,7 +42,7 @@ async function fetchAndUpdatePlayerStats() {
                 <p>Cards: ${player.cards}</p>
             `;
             statsContainer.appendChild(playerDiv);
-            console.log("Player stats loaded")
+            // console.log("Player stats loaded")
         });
     } catch (error) {
         console.error("Error fetching player stats:", error);
@@ -46,6 +51,8 @@ async function fetchAndUpdatePlayerStats() {
 
 // Start polling for console output every second
 setInterval(fetchAndUpdatePlayerStats, 1000);
+
+
 
 
 
@@ -100,5 +107,49 @@ async function incrementConsoleIndex() {
     }
 }
 
-document.getElementById("next-btn").addEventListener("click", incrementConsoleIndex);
+async function decrementConsoleIndex() {
+    try {
+        await fetch(`${apiBaseUrl}/decrement`, { method: "POST" });
+        await fetchConsoleOutput(); // Fetch and display the new output
+    } catch (error) {
+        console.error("Error incrementing console index:", error);
+    }
+}
 
+async function showhands() {
+    try {
+        await fetch(`${apiBaseUrl}/hands`, { method: "POST" });
+        await fetchConsoleOutput(); // Fetch and display the new output
+    } catch (error) {
+        console.error("Error incrementing console index:", error);
+    }
+}
+
+document.getElementById("next-btn").addEventListener("click", incrementConsoleIndex);
+document.getElementById("back-btn").addEventListener("click", decrementConsoleIndex);
+document.getElementById("hands-btn").addEventListener("click", showhands);
+
+// Everything below is for the tests
+
+// Repeat this for tests 2-4 later
+document.getElementById("test1").addEventListener("click", async () => {
+    try {
+        const response = await fetch(`${apiBaseUrl}/start1`);
+        const message = await response.text();
+        document.getElementById("game-message").innerText = message;
+
+        // Hide the start button and show the game console
+        document.getElementById("start-game-btn").style.display = "none";
+        document.getElementById("test1").style.display = "none";
+        document.getElementById("test2").style.display = "none";
+        document.getElementById("test3").style.display = "none";
+        document.getElementById("test4").style.display = "none";
+        
+        document.getElementById("game-console").style.display = "block";
+        console.log("Test 1 button hit")
+
+        await fetchAndUpdatePlayerStats();
+    } catch (error) {
+        console.error("Error starting game:", error);
+    }
+});

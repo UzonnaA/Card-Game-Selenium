@@ -38,10 +38,7 @@ public class Main {
             }
 
             // Wait for the player to press enter to switch to the next player
-            game.handleNextPlayer(input, output, null, null);
-
-
-
+            // game.handleNextPlayer(input, output, null, null);
         }
         input.close();  // Close the scanner after the game ends
         output.close();
@@ -347,6 +344,7 @@ public class Main {
     public volatile String inputJS = "";
     public String returnJS = "";
     private List<String> consoleOutputArray = new ArrayList<>();
+    private List<String> allHandsArray = new ArrayList<>();
     public volatile Queue<String> inputQueue = new ConcurrentLinkedQueue<>();
 
     public boolean shouldDoEvents = true;
@@ -478,9 +476,9 @@ public class Main {
         testCodes.add("HighValue");
         testCodes.add("SimpleTest");
 
-        if(usingJS){
-            areYouReady(global_input, gloabl_output, currentPlayer);
-        }
+        // if(usingJS){
+        //     areYouReady(global_input, gloabl_output, currentPlayer);
+        // }
     }
 
     // This will allow us to overwrite a player's hand for testing
@@ -537,7 +535,7 @@ public class Main {
         }
 
         if(usingJS && shouldDoEvents){
-            DrawPlayEvents(input, output);
+            //DrawPlayEvents(input, output);
         }
 
         
@@ -2788,9 +2786,9 @@ public class Main {
         output.println("The quest has ended.");
         js_print("The quest has ended.", true);
 
-        if(usingJS){
-            checkForWinners(input, output);
-        }
+        // if(usingJS){
+        //     checkForWinners(input, output);
+        // }
         // A3
 
         // The function should end here
@@ -2871,9 +2869,9 @@ public class Main {
 
         if(usingJS){
             diffPageCards = true;
-            if(p.getName().equals(currentPlayer.getName()) && !p.isOverloaded){
-                ShowHand(input, output, p.getName(), true);
-            }
+            // if(p.getName().equals(currentPlayer.getName()) && !p.isOverloaded){
+            //     ShowHand(input, output, p.getName(), true);
+            // }
             
         }
         
@@ -2939,8 +2937,8 @@ public class Main {
         }
 
         if(usingJS && !finished){
-            shouldDoEvents = true;
-            areYouReady(input, output, currentPlayer);
+            // shouldDoEvents = true;
+            // areYouReady(input, output, currentPlayer);
         }
     }
 
@@ -2999,6 +2997,54 @@ public class Main {
         }
     }
 
+    public void displayAllHands() {
+        // Map to store each player's name and their hand as a string
+        Map<String, String> playerHands = new LinkedHashMap<>();
+        
+        // String player1Hand = null;
+        // String player2Hand = null;
+        // String player3Hand = null;
+        // String player4Hand = null;
+
+        // playerHands.put("Player 1", player1Hand);
+        // playerHands.put("Player 2", player2Hand);
+        // playerHands.put("Player 3", player3Hand);
+        // playerHands.put("Player 4", player4Hand);
+    
+        // Loop through each player in the "players" map
+        for (Map.Entry<String, Player> entry : players.entrySet()) {
+            String playerName = entry.getKey();  // Player's name (e.g., "Player 1")
+            Player player = entry.getValue();   // Player object
+    
+            // Get and sort the player's deck
+            List<AdventureCard> playerHand = player.getDeck();
+            sortCards(playerHand);
+    
+            // Build the player's hand string
+            StringBuilder handBuilder = new StringBuilder();
+            handBuilder.append(player.getName()).append("'s Hand: ");
+            for (int i = 0; i < playerHand.size(); i++) {
+                handBuilder.append("(").append(i + 1).append(")").append(playerHand.get(i).getName());
+                if (i < playerHand.size() - 1) {
+                    handBuilder.append(", ");
+                }
+            }
+    
+            // Store the resulting hand string in the map
+            playerHands.put(playerName, handBuilder.toString());
+        }
+    
+        // Combine all hands into a single string separated by newlines
+        StringBuilder allHands = new StringBuilder();
+        for (String hand : playerHands.values()) {
+            allHands.append(hand).append("\n");
+        }
+
+        consoleOutputArray.add(allHands.toString().trim());
+        lastestIndex++;
+    
+    }
+
     public void JSP_sameln(String message, boolean cls) {
         if (consoleOutputArray.isEmpty()) {
             consoleOutputArray.add(message);
@@ -3022,12 +3068,21 @@ public class Main {
         }
     }
 
+    public void decrementArrayIndex() {
+        currentIndex--;
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
+    }
+
     
     public String getConsoleOutput() {
-        if (currentIndex < consoleOutputArray.size()) {
+        if (currentIndex < consoleOutputArray.size() && currentIndex >= 0) {
             return consoleOutputArray.get(currentIndex);
+        }else{
+            return String.valueOf(currentIndex);
         }
-        return "";
+        
     }
 
     

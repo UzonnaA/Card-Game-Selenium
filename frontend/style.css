@@ -34,6 +34,14 @@ button {
     transition: background-color 0.3s ease;
 }
 
+#back-btn{
+    background-color: red;
+}
+
+#next-btn{
+    background-color: red;
+}
+
 button:hover {
     background-color: #0056b3;
 }
@@ -100,8 +108,37 @@ button:hover {
     font-size: 1rem;
 }
 
-#next-btn {
-    margin-top: 10px;
-    padding: 5px 10px;
-    font-size: 1rem;
+/* Align buttons on the same row */
+#game-console button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* Style for the new row of buttons */
+.action-row {
+    margin-top: 10px; /* Add space above the row */
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+}
+
+/* Style for the "Show Hands" button */
+#hands-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#hands-btn:hover {
+    background-color: greenyellow;
+}
+
+/* Center-align the row containing the "Show Hands" button */
+.action-row {
+    margin-top: 10px; /* Add space above the row */
+    display: flex;
+    justify-content: center; /* Center align horizontally */
 }
