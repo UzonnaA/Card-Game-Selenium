@@ -267,66 +267,135 @@ public class Main {
             String sponsor = null;
             String tmp = null;
 
-
-            if(name.equals(testAlt)){
-                this.aTestAdd("Foe", "F5", 5);
-                this.aTestAdd("Foe", "F5", 5);
-                this.aTestAdd("Foe", "F15", 15);
-                this.aTestAdd("Foe", "F15", 15);
-                this.aTestAdd("Weapon", "Dagger", 5);
-                this.aTestAdd("Weapon", "Sword", 10);
-                this.aTestAdd("Weapon", "Sword", 10);
-                this.aTestAdd("Weapon", "Horse", 10);
-                this.aTestAdd("Weapon", "Horse", 10);
-                this.aTestAdd("Weapon", "Battle-Axe", 15);
-                this.aTestAdd("Weapon", "Battle-Axe", 15);
-                this.aTestAdd("Weapon", "Lance", 20);
+            if(!usingJS || Test1_JS){
+                if(name.equals(testAlt)){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                }
+    
+                if(name.equals(testSponsor)){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F40", 40);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Excalibur", 30);
+                }
+    
+                if(name.equals("Player 3")){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                }
+    
+                if(name.equals("Player 4")){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F40", 40);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                    this.aTestAdd("Weapon", "Excalibur", 30);
+                }
             }
 
-            if(name.equals(testSponsor)){
-                this.aTestAdd("Foe", "F5", 5);
-                this.aTestAdd("Foe", "F5", 5);
-                this.aTestAdd("Foe", "F15", 15);
-                this.aTestAdd("Foe", "F15", 15);
-                this.aTestAdd("Foe", "F40", 40);
-                this.aTestAdd("Weapon", "Dagger", 5);
-                this.aTestAdd("Weapon", "Sword", 10);
-                this.aTestAdd("Weapon", "Horse", 10);
-                this.aTestAdd("Weapon", "Horse", 10);
-                this.aTestAdd("Weapon", "Battle-Axe", 15);
-                this.aTestAdd("Weapon", "Battle-Axe", 15);
-                this.aTestAdd("Weapon", "Excalibur", 30);
+            if(Test2_JS){
+                if(name.equals("Player 1")){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F10", 10);
+                    this.aTestAdd("Foe", "F10", 10);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                    
+                }
+
+                if(name.equals("Player 2")){
+                    this.aTestAdd("Foe", "F40", 40);
+                    this.aTestAdd("Foe", "F50", 50);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                    this.aTestAdd("Weapon", "Excalibur", 30);
+
+                    
+                }
+
+                if(name.equals("Player 3")){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                }
+
+                if(name.equals("Player 4")){
+                    this.aTestAdd("Foe", "F50", 50);
+                    this.aTestAdd("Foe", "F70", 70);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                    this.aTestAdd("Weapon", "Excalibur", 30);
+                }
             }
 
-            if(name.equals("Player 3")){
-                this.aTestAdd("Foe", "F5", 5);
-                this.aTestAdd("Foe", "F5", 5);
-                this.aTestAdd("Foe", "F5", 5);
-                this.aTestAdd("Foe", "F15", 15);
-                this.aTestAdd("Weapon", "Dagger", 5);
-                this.aTestAdd("Weapon", "Sword", 10);
-                this.aTestAdd("Weapon", "Sword", 10);
-                this.aTestAdd("Weapon", "Sword", 10);
-                this.aTestAdd("Weapon", "Horse", 10);
-                this.aTestAdd("Weapon", "Horse", 10);
-                this.aTestAdd("Weapon", "Battle-Axe", 15);
-                this.aTestAdd("Weapon", "Lance", 20);
-            }
 
-            if(name.equals("Player 4")){
-                this.aTestAdd("Foe", "F5", 5);
-                this.aTestAdd("Foe", "F15", 15);
-                this.aTestAdd("Foe", "F15", 15);
-                this.aTestAdd("Foe", "F40", 40);
-                this.aTestAdd("Weapon", "Dagger", 5);
-                this.aTestAdd("Weapon", "Dagger", 5);
-                this.aTestAdd("Weapon", "Sword", 10);
-                this.aTestAdd("Weapon", "Horse", 10);
-                this.aTestAdd("Weapon", "Horse", 10);
-                this.aTestAdd("Weapon", "Battle-Axe", 15);
-                this.aTestAdd("Weapon", "Lance", 20);
-                this.aTestAdd("Weapon", "Excalibur", 30);
-            }
+           
 
             cardsBeforeLargeAdd = 12;
 
@@ -343,7 +412,7 @@ public class Main {
     public boolean usingJS = false;
     
     public boolean Test1_JS = false; // Exact same as A-Test
-    public boolean Test2_JS = false;
+    public boolean Test2_JS = false; // 2 Winner
     public boolean Test3_JS = false;
     public boolean Test4_JS = false;
    
@@ -622,7 +691,7 @@ public class Main {
         }
 
         // Only for the A-Test, we'll reset the random cards
-        if(ATEST || ATEST2 || ATEST3 || ATEST4 || Test1_JS){
+        if(ATEST || ATEST2 || ATEST3 || ATEST4 || Test1_JS || Test2_JS || Test3_JS || Test4_JS){
             for(Player p: players.values()){
                 p.RigDeck();
             }
@@ -738,6 +807,14 @@ public class Main {
 
         if(Test1_JS){
             event = "Q4";
+        }
+
+        if(Test2_JS && testQuestNumber == 1){
+            event = "Q4";
+        }
+
+        if(Test2_JS && testQuestNumber == 2){
+            event = "Q3";
         }
 
 
@@ -1516,7 +1593,7 @@ public class Main {
             for(Player p: players.values()){
                 if(p.isAttacker){
                     // ATEST CHECK
-                    if(!(ATEST || ATEST2 || ATEST3 || ATEST4 || Test1_JS)){
+                    if(!(ATEST || ATEST2 || ATEST3 || ATEST4 || Test1_JS || Test2_JS)){
                         output.println(p.getName() + " has received a card for agreeing to attack the stage.");
                         output.println(p.getName() + " UNRIGGED");
                         js_print(p.getName() + " has received a card for agreeing to attack the stage.", true);
@@ -1583,6 +1660,106 @@ public class Main {
                                 }
                             }
                         }
+                        
+                        if(Test2_JS && testQuestNumber == 1){
+                            if (stage == 1) {
+                                if (p.getName().equals("Player 2")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F5", 5);
+
+                                }
+
+                                if (p.getName().equals("Player 3")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F40", 40);
+
+                                }
+
+                                if (p.getName().equals("Player 4")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F40", 40);
+
+                                }
+                            }
+
+                            if (stage == 2) {
+                                if (p.getName().equals("Player 2")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F10", 10);
+
+                                }
+
+                                if (p.getName().equals("Player 4")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F30", 30);
+
+                                }
+                            }
+
+
+                            if (stage == 3) {
+                                if (p.getName().equals("Player 2")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F30", 30);
+
+                                }
+
+                                if (p.getName().equals("Player 4")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F15", 15);
+
+                                }
+                            }
+
+
+                            if (stage == 4) {
+                                if (p.getName().equals("Player 2")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F15", 15);
+
+                                }
+
+                                if (p.getName().equals("Player 4")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F20", 20);
+
+                                }
+                            }
+
+                            
+                        }
+
+                        if(Test2_JS && testQuestNumber == 2){
+                            if (stage == 1) {
+                                if (p.getName().equals("Player 2")) {
+                                    giveCardsRaw(p, input, output, "Weapon", "Dagger", 5);
+
+                                }
+
+                                if (p.getName().equals("Player 4")) {
+                                    giveCardsRaw(p, input, output, "Weapon", "Dagger", 5);
+
+                                }
+                            }
+
+                            if (stage == 2) {
+                                if (p.getName().equals("Player 2")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F15", 15);
+
+                                }
+
+                                if (p.getName().equals("Player 4")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F15", 15);
+
+                                }
+                            }
+
+
+                            if (stage == 3) {
+                                if (p.getName().equals("Player 2")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F25", 25);
+
+                                }
+
+                                if (p.getName().equals("Player 4")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F25", 25);
+
+                                }
+                            }    
+                        }
+
+
 
                         // Player 1 is the sponsor here
                         if(ATEST2 && testQuestNumber == 1){
@@ -2554,11 +2731,6 @@ public class Main {
 
                         // Quit logic
                         if (choice.equalsIgnoreCase("Quit")) {
-                            if (attackValue == 0 && !(ATEST2)) {
-                                output.println("You need at least one weapon card to attack.");
-                                js_print("You need at least one weapon card to attack.", false);
-                                continue;
-                            }
                             attackReady = true;
                             output.println(p.getName() + "'s attack is ready with a value of " + attackValue);
                             js_print(p.getName() + "'s attack is ready with a value of " + attackValue, false);
@@ -2729,7 +2901,7 @@ public class Main {
         }
 
         // Finally, we'll handle giving the sponsor cards before ending the quest
-        if(!(ATEST2 || ATEST3)){
+        if(!(ATEST2 || ATEST3 || Test2_JS)){
             int sponsorCards = builtQuestCards.size() + stages;
             output.println(currentSponsor.getName() + " will now gain " + sponsorCards + " cards for sponsoring the quest.");
             js_print(currentSponsor.getName() + " will now gain " + sponsorCards + " cards for sponsoring the quest.", true);
@@ -2778,6 +2950,35 @@ public class Main {
             // Increment the test quest number so we know which quest we're on
             testQuestNumber++;
 
+        } else if(Test2_JS && testQuestNumber == 1){
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F5", 5);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F10", 10);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F15", 15);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F15", 15);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F20", 20);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F20", 20);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F20", 20);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F20", 20);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F25", 25);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F25", 25);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F30", 30);
+
+            // Increment the test quest number so we know which quest we're on
+            testQuestNumber++;
+        }
+
+        else if(Test2_JS && testQuestNumber == 2){
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F20", 20);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F20", 20);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F25", 25);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F30", 30);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Sword", 10);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Battle-Axe", 15);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Battle-Axe", 15);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Lance", 20);
+
+            // Increment the test quest number so we know which quest we're on
+            testQuestNumber++;
         }
 
 
@@ -2795,11 +2996,6 @@ public class Main {
 
         output.println("The quest has ended.");
         js_print("The quest has ended.", true);
-
-        // if(usingJS){
-        //     checkForWinners(input, output);
-        // }
-        // A3
 
         // The function should end here
     }

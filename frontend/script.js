@@ -153,3 +153,74 @@ document.getElementById("test1").addEventListener("click", async () => {
         console.error("Error starting game:", error);
     }
 });
+
+// Repeat this for tests 2-4 later
+document.getElementById("test2").addEventListener("click", async () => {
+    try {
+        const response = await fetch(`${apiBaseUrl}/start2`);
+        const message = await response.text();
+        document.getElementById("game-message").innerText = message;
+
+        // Hide the start button and show the game console
+        document.getElementById("start-game-btn").style.display = "none";
+        document.getElementById("test1").style.display = "none";
+        document.getElementById("test2").style.display = "none";
+        document.getElementById("test3").style.display = "none";
+        document.getElementById("test4").style.display = "none";
+        
+        document.getElementById("game-console").style.display = "block";
+        console.log("Test 2 button hit")
+
+        await fetchAndUpdatePlayerStats();
+    } catch (error) {
+        console.error("Error starting game:", error);
+    }
+});
+
+
+// Repeat this for tests 2-4 later
+document.getElementById("test3").addEventListener("click", async () => {
+    try {
+        const response = await fetch(`${apiBaseUrl}/start3`);
+        const message = await response.text();
+        document.getElementById("game-message").innerText = message;
+
+        // Hide the start button and show the game console
+        document.getElementById("start-game-btn").style.display = "none";
+        document.getElementById("test1").style.display = "none";
+        document.getElementById("test2").style.display = "none";
+        document.getElementById("test3").style.display = "none";
+        document.getElementById("test4").style.display = "none";
+        
+        document.getElementById("game-console").style.display = "block";
+        console.log("Test 3 button hit")
+
+        await fetchAndUpdatePlayerStats();
+    } catch (error) {
+        console.error("Error starting game:", error);
+    }
+});
+
+
+// Repeat this for tests 2-4 later
+document.getElementById("test4").addEventListener("click", async () => {
+    try {
+        const response = await fetch(`${apiBaseUrl}/start4`);
+        const message = await response.text();
+        document.getElementById("game-message").innerText = message;
+
+        // Hide the start button and show the game console
+        document.getElementById("start-game-btn").style.display = "none";
+        document.getElementById("test1").style.display = "none";
+        document.getElementById("test2").style.display = "none";
+        document.getElementById("test3").style.display = "none";
+        document.getElementById("test4").style.display = "none";
+        
+        document.getElementById("game-console").style.display = "block";
+        console.log("Test 4 button hit")
+
+        await fetchAndUpdatePlayerStats();
+    } catch (error) {
+        console.error("Error starting game:", error);
+    }
+});

@@ -144,4 +144,38 @@ public class MainController {
         latestMessage = "";
         return latestMessage;
     }
+
+
+    @GetMapping("/start2")
+    public String startGame2() {
+        resetGame();
+        System.out.println("Test 2 now running");
+
+        // Run the game logic on a separate thread
+        new Thread(() -> {
+            game.usingJS = true;
+            game.Test2_JS = true; 
+            game.InitializeDeck();
+            game.StartGame();
+
+            Scanner input = new Scanner(System.in);
+            PrintWriter output = new PrintWriter(System.out, true);
+            
+            game.areYouReady(input, output, game.getCurrentPlayer());
+            game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
+            game.DrawPlayEvents(input, output, "Q4");
+            game.checkForWinners(input, output);
+
+            game.areYouReady(input, output, game.getCurrentPlayer());
+            game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
+            game.DrawPlayEvents(input, output, "Q4");
+            game.checkForWinners(input, output);
+                
+            
+        }).start();
+
+        // Immediately return a response to the frontend
+        latestMessage = "";
+        return latestMessage;
+    }
 }
