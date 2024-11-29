@@ -1516,14 +1516,17 @@ public class Main {
             for(Player p: players.values()){
                 if(p.isAttacker){
                     // ATEST CHECK
-                    if(!(ATEST || ATEST2 || ATEST3 || ATEST4)){
+                    if(!(ATEST || ATEST2 || ATEST3 || ATEST4 || Test1_JS)){
                         output.println(p.getName() + " has received a card for agreeing to attack the stage.");
+                        output.println(p.getName() + " UNRIGGED");
                         js_print(p.getName() + " has received a card for agreeing to attack the stage.", true);
                         giveCards(p,1, input, output);
                     }else{
                         output.println(p.getName() + " has received a card for agreeing to attack the stage.");
+                        output.println(p.getName() + " RIGGED A-TEST");
+                        js_print(p.getName() + " has received a card for agreeing to attack the stage.", true);
 
-                        if(ATEST){
+                        if(ATEST || Test1_JS){
                             if (stage == 1) {
                                 if (p.getName().equals("Player 1")) {
                                     giveCardsRaw(p, input, output, "Foe", "F30", 30);
@@ -2927,11 +2930,18 @@ public class Main {
 
     public void checkForWinners(Scanner input, PrintWriter output){
         boolean oneWinner = false;
+        boolean firstWinner = true;
         for(Player p: players.values()){
             if(p.getShields() >= 7){
                 p.setWinner(true);
                 output.println(p.getName() + " is a winner!");
-                js_print(p.getName() + " is a winner!", true);
+                if(firstWinner){
+                    js_print(p.getName() + " is a winner!", true);
+                    firstWinner = false;
+                }else{
+                    js_print(p.getName() + " is a winner!", false);
+                }
+                
                 oneWinner = true;
             }
         }
@@ -2939,6 +2949,8 @@ public class Main {
         if(oneWinner){
             finished = true;
         }else{
+            output.println( "There are no winners.");
+            js_print("There are no winners.", true);
             currentPlayer = players.get(NextPlayerString(currentPlayer.getName()));
             activePlayer = currentPlayer;
         }
