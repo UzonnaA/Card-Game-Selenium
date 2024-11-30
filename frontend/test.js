@@ -1,6 +1,6 @@
 const { Builder, By, until } = require('selenium-webdriver');
 
-let sleepTimer = 500;
+let sleepTimer = 10;
 
 
 
@@ -398,6 +398,292 @@ async function runTest2() {
     }
 }
 
+async function runTest3() {
+    let driver = await new Builder().forBrowser('chrome').build();
+    let currentMessage = "";
+
+    try {
+        await driver.get("http://192.168.56.1:8081");
+        // Start the game
+        let startButton = await driver.findElement(By.id("test3"));
+        await startButton.click();
+        await driver.sleep(sleepTimer);
+        
+        // Define all other buttons
+        let textField = await driver.findElement(By.id("user-input"));
+        let enterButton = await driver.findElement(By.id("next-btn"));
+        let submitButton = await driver.findElement(By.id("submit-btn"));
+        let messageBoard = await driver.findElement(By.id("game-message"));
+        let playerBoard = await driver.findElement(By.id("player-stats"));
+        let showHand = await driver.findElement(By.id("hands-btn"));
+        let backButton = await driver.findElement(By.id("back-btn"));
+
+        
+        await keepClicking(driver);
+        
+        // Player 1 sponsors
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        
+        // Building
+        let inputArray = ["1", "quit", "2", "quit", "3", "quit", "4", "quit"]
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray)
+        await keepClicking(driver);
+        console.log("Player 1 builds the quest");
+        
+        // Accept the attack
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Players have accepted the attack (Stage 1)");
+
+        // Every player has one too many cards. Drop the first
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Attackers have trimmed their hand");
+
+        // Stage 1
+        console.log("Stage 1 Attack");
+        
+        // Player 2 Attack
+        inputArray = ["3", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Player 3 Attack
+        inputArray = ["3", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+        
+        // Player 4 Attack
+        inputArray = ["4", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Accept the next stage
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Players have accepted the attack (Stage 2)");
+        
+        // Stage 2
+        console.log("Stage 2 Attack");
+        
+        // Player 2 Attack
+        inputArray = ["6", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Player 3 Attack
+        inputArray = ["6", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Player 4 Attack
+        inputArray = ["7", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+    
+
+        // Accept the next stage
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Players have accepted the attack (Stage 3)");
+
+
+        // Stage 3
+        console.log("Stage 3 Attack");
+        
+        // Player 2 Attack
+        inputArray = ["8", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Player 3 Attack
+        inputArray = ["8", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Player 4 Attack
+        inputArray = ["9", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Accept the next stage
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Players have accepted the attack (Stage 4)");
+
+
+        // Stage 4
+        console.log("Stage 4 Attack");
+        
+         // Player 2 Attack
+         inputArray = ["10", "quit"];
+         await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+         await keepClicking(driver);
+ 
+         // Player 3 Attack
+         inputArray = ["10", "quit"];
+         await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+         await keepClicking(driver);
+ 
+         // Player 4 Attack
+         inputArray = ["11", "quit"];
+         await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+         await keepClicking(driver);
+
+         // Perfect up to here ...
+
+        // Trim Player 1
+        inputArray = ["1", "1", "2", "2"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // ~~~~~~~~~~~~ EVENTS BEGINS HERE ~~~~~~~~~~~~~~~~~
+
+        // Prosperity Trim
+        inputArray = ["1", "1", "1", "1", "1"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Queen's Favor Trim (Player 4)
+        inputArray = ["2", "4"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+        
+        // ~~~~~~~~~~~~ QUEST B BEGINS HERE ~~~~~~~~~~~~~~~~~
+
+        // Player 1 sponsors
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+    
+        // Building
+        inputArray = ["1", "quit", "1", "7", "quit", "4", "6", "quit"]
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray)
+        await keepClicking(driver);
+        console.log("Player 1 builds the quest");
+
+        // Accept the attack
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Players have accepted the attack (Stage 1, Second Quest)");
+
+        // Every player has one too many cards. Drop the first
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Attackers have trimmed their hand");
+
+        // Stage 1
+        console.log("Stage 1 Attack");
+
+        // Player 2 Attack
+        inputArray = ["9", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+ 
+        // Player 3 Attack
+        inputArray = ["9", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+         
+        // Player 4 Attack
+        inputArray = ["10", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+ 
+        // Accept the next stage
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Players have accepted the attack (Stage 2)");
+
+        // Stage 2
+        console.log("Stage 2 Attack");
+
+        // Player 2 Attack
+        inputArray = ["10", "8", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+  
+        // Player 3 Attack
+        inputArray = ["10", "7", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Accept the next stage
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Players have accepted the attack (Stage 3)");
+
+        // Stage 3
+        console.log("Stage 3 Attack");
+
+        // Player 2 Attack
+        inputArray = ["10", "8", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+  
+        // Player 3 Attack
+        inputArray = ["11", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Trim Player 1
+        inputArray = ["1", "1", "1"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+    
+        await showHand.click();
+        await driver.sleep(sleepTimer);
+        await verifyMessage(messageBoard, "Player 3 is a winner", "Player 3 won the game as they should!");
+
+        await verifyMessage(messageBoard, "(1)F25, (2)F25, (3)F35, (4)Dagger, (5)Dagger, (6)Sword, (7)Sword, (8)Sword, (9)Sword, (10)Horse, (11)Horse, (12)Horse", "Player 1 had the correct hand");
+        await verifyMessage(messageBoard, "(1)F15, (2)F25, (3)F30, (4)F40, (5)Sword, (6)Sword, (7)Sword, (8)Horse, (9)Excalibur", "Player 2 had the correct hand");
+        await verifyMessage(messageBoard, "(1)F10, (2)F25, (3)F30, (4)F40, (5)F50, (6)Sword, (7)Sword, (8)Horse, (9)Horse, (10)Lance", "Player 3 had the correct hand");
+        await verifyMessage(messageBoard, "(1)F25, (2)F25, (3)F30, (4)F50, (5)F70, (6)Dagger, (7)Dagger, (8)Sword, (9)Sword, (10)Battle-Axe, (11)Lance", "Player 4 had the correct hand");
+        
+
+    } catch (error) {
+        console.error("Test encountered an error:", error);
+    } finally {
+        //await driver.quit();
+        await driver.sleep(6000000);
+    }
+}
+
+
+
 async function keepClicking(driver) {
     let gameMessageElement = await driver.findElement(By.id("game-message"));
     let nextButton = await driver.findElement(By.id("next-btn"));
@@ -440,6 +726,7 @@ async function verifyMessage(messageBoard, includesText, successMessage) {
 async function submitText(textField, submitButton, driver, message) {
     await textField.clear();
     await textField.sendKeys(message);
+    await driver.sleep(sleepTimer);
     await submitButton.click();
     await driver.sleep(sleepTimer);
     // console.log("Sent input: " + message);
@@ -449,12 +736,13 @@ async function submitTextBulk(textField, submitButton, driver, enterButton, inpu
     for(let i = 0; i < inputArray.length; i++){
         await textField.clear();
         await textField.sendKeys(inputArray[i]);
-        await submitButton.click();
         await driver.sleep(sleepTimer);
+        await submitButton.click();
         await keepClicking(driver);
         // console.log("Sent input: " + inputArray[i]);
     }
 }
 
 //runTest1();
-runTest2();
+//runTest2();
+//runTest3();
