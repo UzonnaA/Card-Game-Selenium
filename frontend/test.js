@@ -682,6 +682,99 @@ async function runTest3() {
     }
 }
 
+async function runTest4() {
+    let driver = await new Builder().forBrowser('chrome').build();
+    let currentMessage = "";
+
+    try {
+        await driver.get("http://192.168.56.1:8081");
+        // Start the game
+        let startButton = await driver.findElement(By.id("test4"));
+        await startButton.click();
+        await driver.sleep(sleepTimer);
+        
+        // Define all other buttons
+        let textField = await driver.findElement(By.id("user-input"));
+        let enterButton = await driver.findElement(By.id("next-btn"));
+        let submitButton = await driver.findElement(By.id("submit-btn"));
+        let messageBoard = await driver.findElement(By.id("game-message"));
+        let playerBoard = await driver.findElement(By.id("player-stats"));
+        let showHand = await driver.findElement(By.id("hands-btn"));
+        let backButton = await driver.findElement(By.id("back-btn"));
+
+        
+        await keepClicking(driver);
+        
+        // Player 1 sponsors
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        
+        // Building
+        let inputArray = ["1", "2", "3", "4", "5", "6", "quit", "1", "1", "1", "1", "1", "1", "quit"]
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray)
+        await keepClicking(driver);
+        console.log("Player 1 builds the quest");
+        
+        // Accept the attack
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        console.log("Players have accepted the attack (Stage 1)");
+
+        // Every player has one too many cards.
+        await submitText(textField, submitButton, driver, "1");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "4");
+        await keepClicking(driver);
+        await submitText(textField, submitButton, driver, "3");
+        await keepClicking(driver);
+        console.log("Attackers have trimmed their hand");
+
+        // Stage 1
+        console.log("Stage 1 Attack");
+        
+        // Player 2 Attack
+        inputArray = ["12", "quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Player 3 Attack
+        inputArray = ["quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+        
+        // Player 4 Attack
+        inputArray = ["quit"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        // Trim Player 1
+        inputArray = ["1", "1"];
+        await submitTextBulk(textField, submitButton, driver, enterButton, inputArray);
+        await keepClicking(driver);
+
+        await showHand.click();
+        await driver.sleep(sleepTimer);
+        await verifyMessage(messageBoard, "There are no winners", "The quest ended without winners");
+
+        await verifyMessage(messageBoard, "(1)F15, (2)Dagger, (3)Dagger, (4)Dagger, (5)Dagger, (6)Sword, (7)Sword, (8)Sword, (9)Horse, (10)Horse, (11)Horse, (12)Horse", "Player 1 had the correct hand");
+        await verifyMessage(messageBoard, "(1)F5, (2)F5, (3)F10, (4)F15, (5)F15, (6)F20, (7)F20, (8)F25, (9)F30, (10)F30, (11)F40", "Player 2 had the correct hand");
+        await verifyMessage(messageBoard, "(1)F5, (2)F5, (3)F10, (4)F15, (5)F15, (6)F20, (7)F20, (8)F25, (9)F25, (10)F30, (11)F40, (12)Lance", "Player 3 had the correct hand");
+        await verifyMessage(messageBoard, "(1)F5, (2)F5, (3)F10, (4)F15, (5)F15, (6)F20, (7)F20, (8)F25, (9)F25, (10)F30, (11)F50, (12)Excalibur", "Player 4 had the correct hand");
+        
+
+    } catch (error) {
+        console.error("Test encountered an error:", error);
+    } finally {
+        //await driver.quit();
+        await driver.sleep(6000000);
+    }
+}
+
+
 
 
 async function keepClicking(driver) {
@@ -746,3 +839,4 @@ async function submitTextBulk(textField, submitButton, driver, enterButton, inpu
 //runTest1();
 //runTest2();
 //runTest3();
+runTest4();

@@ -479,6 +479,68 @@ public class Main {
                 }
             }
 
+            if(Test4_JS){
+                if(name.equals("Player 1")){
+                    this.aTestAdd("Foe", "F50", 50);
+                    this.aTestAdd("Foe", "F70", 70);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Dagger", 5);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Sword", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Horse", 10);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Battle-Axe", 15);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                }
+
+                if(name.equals("Player 2")){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F10", 10);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F20", 20);
+                    this.aTestAdd("Foe", "F20", 20);
+                    this.aTestAdd("Foe", "F25", 25);
+                    this.aTestAdd("Foe", "F30", 30);
+                    this.aTestAdd("Foe", "F30", 30);
+                    this.aTestAdd("Foe", "F40", 40);
+                    this.aTestAdd("Weapon", "Excalibur", 30);
+                }
+
+                if(name.equals("Player 3")){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F10", 10);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F20", 20);
+                    this.aTestAdd("Foe", "F20", 20);
+                    this.aTestAdd("Foe", "F25", 25);
+                    this.aTestAdd("Foe", "F25", 25);
+                    this.aTestAdd("Foe", "F30", 30);
+                    this.aTestAdd("Foe", "F40", 40);
+                    this.aTestAdd("Weapon", "Lance", 20);
+                }
+
+                if(name.equals("Player 4")){
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F5", 5);
+                    this.aTestAdd("Foe", "F10", 10);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F15", 15);
+                    this.aTestAdd("Foe", "F20", 20);
+                    this.aTestAdd("Foe", "F20", 20);
+                    this.aTestAdd("Foe", "F25", 25);
+                    this.aTestAdd("Foe", "F25", 25);
+                    this.aTestAdd("Foe", "F30", 30);
+                    this.aTestAdd("Foe", "F50", 50);
+                    this.aTestAdd("Weapon", "Excalibur", 30);
+                }
+            }
+
 
            
 
@@ -800,7 +862,7 @@ public class Main {
     // I'll use this for the A-Test to give the player a specific card
     public void giveCardsRaw(Player p, Scanner input, PrintWriter output, String type, String name, int value){
         AdventureCard card = new AdventureCard(type, name, value);
-        if(!Test3_JS){
+        if(!(Test3_JS || Test4_JS)){
             p.addToDeck(card, input, output, 1);
         }else{
             p.addToDeckNew(card, input, output);
@@ -920,6 +982,10 @@ public class Main {
             testQuestNumber++;
         } else if(Test3_JS && testQuestNumber == 5){
             event = "Q3";
+        }
+
+        if(Test4_JS){
+            event = "Q2";
         }
 
         
@@ -2036,6 +2102,27 @@ public class Main {
 
                             
                         }
+                        
+                        if(Test4_JS && testQuestNumber == 1){
+                            if (stage == 1) {
+                                if (p.getName().equals("Player 2")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F5", 5);
+
+                                }
+
+                                if (p.getName().equals("Player 3")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F15", 15);
+
+                                }
+
+                                if (p.getName().equals("Player 4")) {
+                                    giveCardsRaw(p, input, output, "Foe", "F10", 10);
+                                }
+                            }
+                        }
+                        
+                        
+                        
                         // Player 1 is the sponsor here
                         if(ATEST2 && testQuestNumber == 1){
                             if (stage == 1) {
@@ -3287,6 +3374,30 @@ public class Main {
             giveCardsRaw(currentSponsor, input, output, "Weapon", "Sword", 10);
 
             giveCardsRaw(currentSponsor, input, output, "Foe", "F35", 35);
+            // Increment the test quest number so we know which quest we're on
+            // testQuestNumber++;
+        }
+
+        else if(Test4_JS && testQuestNumber == 1){
+            int sponsorCards = builtQuestCards.size() + stages;
+            output.println(currentSponsor.getName() + " will now gain " + sponsorCards + " cards for sponsoring the quest.");
+            js_print(currentSponsor.getName() + " will now gain " + sponsorCards + " cards for sponsoring the quest.", true);
+            currentSponsor.cardsForOverload = currentSponsor.getCardCount() + 14;
+            
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F5", 5);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F10", 10);
+            giveCardsRaw(currentSponsor, input, output, "Foe", "F15", 15);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Dagger", 5);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Dagger", 5);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Dagger", 5);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Dagger", 5);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Sword", 10);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Sword", 10);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Sword", 10);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Horse", 10);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Horse", 10);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Horse", 10);
+            giveCardsRaw(currentSponsor, input, output, "Weapon", "Horse", 10);
             // Increment the test quest number so we know which quest we're on
             // testQuestNumber++;
         }
