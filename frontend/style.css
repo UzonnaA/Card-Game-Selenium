@@ -114,14 +114,14 @@ button:hover {
     margin-bottom: 10px;
 }
 
-/* Style for the new row of buttons */
+
 .action-row {
-    margin-top: 10px; /* Add space above the row */
+    margin-top: 10px; 
     display: flex;
-    justify-content: flex-start; /* Align to the left */
+    justify-content: flex-start; 
 }
 
-/* Style for the "Show Hands" button */
+
 #hands-btn {
     padding: 10px 20px;
     font-size: 14px;
@@ -136,9 +136,9 @@ button:hover {
     background-color: greenyellow;
 }
 
-/* Center-align the row containing the "Show Hands" button */
+
 .action-row {
-    margin-top: 10px; /* Add space above the row */
+    margin-top: 10px; 
     display: flex;
-    justify-content: center; /* Center align horizontally */
+    justify-content: center; 
 }

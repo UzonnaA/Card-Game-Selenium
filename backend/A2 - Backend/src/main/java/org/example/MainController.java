@@ -2,7 +2,6 @@ package org.example;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-//import java.io.PrintWriter;
 import java.util.*;
 
 import org.example.Main.Player;
@@ -27,7 +26,7 @@ public class MainController {
     @GetMapping("/start")
     public String startGame() {
         resetGame();
-        game.usingJS = true; // Indicate that the game is running in a browser environment
+        game.usingJS = true; // 
         System.out.println("Start button hit");
 
         // Run the game logic on a separate thread
@@ -48,7 +47,7 @@ public class MainController {
             }
         }).start();
 
-        // Immediately return a response to the frontend
+        
         latestMessage = "";
         return latestMessage;
     }
@@ -82,10 +81,7 @@ public class MainController {
         return players;
     }
 
-    // @PostMapping("/signal")
-    // public void signalJsInput() {
-    //     //game.signalJsInputReceived();
-    // }
+    
 
 
     private void resetGame() {
@@ -140,7 +136,7 @@ public class MainController {
             
         }).start();
 
-        // Immediately return a response to the frontend
+        
         latestMessage = "";
         return latestMessage;
     }
@@ -174,7 +170,7 @@ public class MainController {
             
         }).start();
 
-        // Immediately return a response to the frontend
+        
         latestMessage = "";
         return latestMessage;
     }
@@ -204,7 +200,7 @@ public class MainController {
             } 
         }).start();
 
-        // Immediately return a response to the frontend
+        
         latestMessage = "";
         return latestMessage;
     }
@@ -232,7 +228,7 @@ public class MainController {
             
         }).start();
 
-        // Immediately return a response to the frontend
+        
         latestMessage = "";
         return latestMessage;
     }

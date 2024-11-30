@@ -1,4 +1,4 @@
-const apiBaseUrl = "http://localhost:8080"; // Update if the backend address changes
+const apiBaseUrl = "http://localhost:8080"; 
 
 
 // Start the game

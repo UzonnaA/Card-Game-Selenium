@@ -796,7 +796,6 @@ async function keepClicking(driver) {
 
         // Check if the message has stopped changing
         if (currentMessage === previousMessage) {
-            // console.log("The game message has stopped changing.");
             break;
         }
         // Update the previous message for the next iteration
@@ -822,7 +821,6 @@ async function submitText(textField, submitButton, driver, message) {
     await driver.sleep(sleepTimer);
     await submitButton.click();
     await driver.sleep(sleepTimer);
-    // console.log("Sent input: " + message);
 }
 
 async function submitTextBulk(textField, submitButton, driver, enterButton, inputArray) {
@@ -832,7 +830,6 @@ async function submitTextBulk(textField, submitButton, driver, enterButton, inpu
         await driver.sleep(sleepTimer);
         await submitButton.click();
         await keepClicking(driver);
-        // console.log("Sent input: " + inputArray[i]);
     }
 }
 
