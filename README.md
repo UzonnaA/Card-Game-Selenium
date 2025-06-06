@@ -67,7 +67,7 @@ mvn spring-boot:run
 cd ..\..\frontend
 npx http-server
 ```
-You will see a list of available IPs (like http://127.0.0.1:8081, http://192.168.1.x:8081)
+You will see a list of available IPs (like http://127.0.0.1:8081, http://192.168.1.x:8081)  
 ⚠️ Make note of the IP that you will use for testing.
 Update the link variable in test.js to match the selected IP from the previous step.
 
