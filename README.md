@@ -56,13 +56,13 @@ You can play the game locally in the browser, or run automated tests that simula
 - Google Chrome + Chromedriver (for running Selenium tests)
 
 
-### 📦 Start Backend (Spring Boot)
+### Start Backend (Spring Boot)
 ```bash
 cd backend/A2\ -\ Backend
 mvn spring-boot:run
 ```
 
-### 📦 Start Frontend (Static HTTP Server)
+### Start Frontend (Static HTTP Server)
 ```bash
 cd ..\..\frontend
 npx http-server
@@ -71,7 +71,7 @@ You will see a list of available IPs (like http://127.0.0.1:8081, http://192.168
 ⚠️ Make note of the IP that you will use for testing.  
 Update the link variable in test.js to match the selected IP from the previous step.
 
-### 📦 Selenium Test Runner
+### Selenium Test Runner
 ```bash
 node test.js
 ```
