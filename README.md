@@ -1,4 +1,4 @@
-# Card Game with Selenium Automated Testing
+# 🃏 Card Game with Selenium Automated Testing
 
 This project is a full-stack card game simulator built with **Spring Boot** and **vanilla JavaScript**. It’s designed to show backend/frontend integration, multithreading, and browser automation with **Selenium**.
 
