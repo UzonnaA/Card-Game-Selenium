@@ -12,11 +12,11 @@ You can play the game locally in the browser, or run automated tests that simula
 - Simulates a turn-based multiplayer card game, complete with drawing, playing, and managing cards.
 - The game runs interactively in the browser, letting players take turns and update stats in real time.
 - The backend handles all the logic and game flow 
-- The frontend presents it cleanly using just HTML/CSS/JavaScript.
+- The frontend presents it cleanly using HTML/CSS/JavaScript.
 
 ### 🧪 Automated Testing with Selenium
 - The app includes a custom **Selenium test suite** that mimics how a real user would play.
-- Tests cover the full game cycle—from initialization and card events to player decisions and win conditions.
+- Tests cover the full game cycle, including initialization and card events to player decisions and win conditions.
 - Great for showing end-to-end automation and UI validation.
 
 ### 🌐 Backend (Spring Boot)
@@ -29,7 +29,7 @@ You can play the game locally in the browser, or run automated tests that simula
   - `POST /increment`, `/decrement`, `/hands` — navigate output/history
 
 ### 💻 Frontend (JS/HTML/CSS)
-- Uses **vanilla JS** and the **fetch** API to stay in sync with the backend.
+- Uses **JS** and the **fetch** API to stay in sync with the backend.
 - Dynamically updates the UI to show player stats and game messages as the game progresses.
 
 ---
