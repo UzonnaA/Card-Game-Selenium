@@ -1,7 +1,7 @@
 const { Builder, By, until } = require('selenium-webdriver');
 
 let sleepTimer = 10;
-
+let link = "http://192.168.50.212:8081";
 
 
 
@@ -11,7 +11,7 @@ async function runTest1() {
     let currentMessage = "";
 
     try {
-        await driver.get("http://192.168.56.1:8081");
+        await driver.get(link);
         // Start the game
         let startButton = await driver.findElement(By.id("test1"));
         await startButton.click();
@@ -164,7 +164,7 @@ async function runTest2() {
     let currentMessage = "";
 
     try {
-        await driver.get("http://192.168.56.1:8081");
+        await driver.get(link);
         // Start the game
         let startButton = await driver.findElement(By.id("test2"));
         await startButton.click();
@@ -403,7 +403,7 @@ async function runTest3() {
     let currentMessage = "";
 
     try {
-        await driver.get("http://192.168.56.1:8081");
+        await driver.get(link);
         // Start the game
         let startButton = await driver.findElement(By.id("test3"));
         await startButton.click();
@@ -687,7 +687,7 @@ async function runTest4() {
     let currentMessage = "";
 
     try {
-        await driver.get("http://192.168.56.1:8081");
+        await driver.get(link);
         // Start the game
         let startButton = await driver.findElement(By.id("test4"));
         await startButton.click();

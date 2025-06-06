@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://192.168.56.1:8081") 
+// @CrossOrigin(origins = "http://192.168.56.1:8081")
+@CrossOrigin(origins = "*")
 public class MainController {
 
     Main game = new Main();
     private String latestMessage = "";
-    
 
     public MainController() {
         resetGame();
@@ -26,7 +26,7 @@ public class MainController {
     @GetMapping("/start")
     public String startGame() {
         resetGame();
-        game.usingJS = true; // 
+        game.usingJS = true; //
         System.out.println("Start button hit");
 
         // Run the game logic on a separate thread
@@ -41,13 +41,12 @@ public class MainController {
                 game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
                 game.DrawPlayEvents(input, output, null);
                 game.checkForWinners(input, output);
-                if(game.finished){
+                if (game.finished) {
                     break;
                 }
             }
         }).start();
 
-        
         latestMessage = "";
         return latestMessage;
     }
@@ -68,27 +67,33 @@ public class MainController {
     @GetMapping("/players")
     public List<Map<String, Object>> getPlayers() {
         List<Map<String, Object>> players = new ArrayList<>();
-        if(game.players.values() == null){
-            return null;
+
+        if (game == null) {
+            System.err.println("Error: game is null");
+            return players;
         }
+
+        if (game.players == null || game.players.isEmpty()) {
+            System.err.println("Error: game.players is null or empty");
+            return players;
+        }
+
         for (Player player : game.players.values()) {
+            if (player == null)
+                continue; // Just in case
             Map<String, Object> playerData = new HashMap<>();
             playerData.put("name", player.getName());
             playerData.put("shields", player.getShields());
-            playerData.put("cards", player.getDeck().size());
+            playerData.put("cards", player.getDeck() != null ? player.getDeck().size() : 0);
             players.add(playerData);
         }
+
         return players;
     }
-
-    
-
 
     private void resetGame() {
         game = new Main();
     }
-
-    
 
     @GetMapping("/console")
     public String getConsoleOutput() {
@@ -121,26 +126,23 @@ public class MainController {
         // Run the game logic on a separate thread
         new Thread(() -> {
             game.usingJS = true;
-            game.Test1_JS = true; 
+            game.Test1_JS = true;
             game.InitializeDeck();
             game.StartGame();
 
             Scanner input = new Scanner(System.in);
             PrintWriter output = new PrintWriter(System.out, true);
-            
+
             game.areYouReady(input, output, game.getCurrentPlayer());
             game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
             game.DrawPlayEvents(input, output, "Q4");
             game.checkForWinners(input, output);
-                
-            
+
         }).start();
 
-        
         latestMessage = "";
         return latestMessage;
     }
-
 
     @GetMapping("/start2")
     public String startGame2() {
@@ -150,13 +152,13 @@ public class MainController {
         // Run the game logic on a separate thread
         new Thread(() -> {
             game.usingJS = true;
-            game.Test2_JS = true; 
+            game.Test2_JS = true;
             game.InitializeDeck();
             game.StartGame();
 
             Scanner input = new Scanner(System.in);
             PrintWriter output = new PrintWriter(System.out, true);
-            
+
             game.areYouReady(input, output, game.getCurrentPlayer());
             game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
             game.DrawPlayEvents(input, output, "Q4");
@@ -166,16 +168,12 @@ public class MainController {
             game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
             game.DrawPlayEvents(input, output, "Q4");
             game.checkForWinners(input, output);
-                
-            
+
         }).start();
 
-        
         latestMessage = "";
         return latestMessage;
     }
-
-
 
     @GetMapping("/start3")
     public String startGame3() {
@@ -185,22 +183,21 @@ public class MainController {
         // Run the game logic on a separate thread
         new Thread(() -> {
             game.usingJS = true;
-            game.Test3_JS = true; 
+            game.Test3_JS = true;
             game.InitializeDeck();
             game.StartGame();
 
             Scanner input = new Scanner(System.in);
             PrintWriter output = new PrintWriter(System.out, true);
-            
-            for(int i = 0; i < 5; i++){
+
+            for (int i = 0; i < 5; i++) {
                 game.areYouReady(input, output, game.getCurrentPlayer());
                 game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
                 game.DrawPlayEvents(input, output, "Q4");
                 game.checkForWinners(input, output);
-            } 
+            }
         }).start();
 
-        
         latestMessage = "";
         return latestMessage;
     }
@@ -213,22 +210,20 @@ public class MainController {
         // Run the game logic on a separate thread
         new Thread(() -> {
             game.usingJS = true;
-            game.Test4_JS = true; 
+            game.Test4_JS = true;
             game.InitializeDeck();
             game.StartGame();
 
             Scanner input = new Scanner(System.in);
             PrintWriter output = new PrintWriter(System.out, true);
-            
+
             game.areYouReady(input, output, game.getCurrentPlayer());
             game.ShowHand(input, output, game.getCurrentPlayer().getName(), true);
             game.DrawPlayEvents(input, output, "Q2");
             game.checkForWinners(input, output);
-                
-            
+
         }).start();
 
-        
         latestMessage = "";
         return latestMessage;
     }
