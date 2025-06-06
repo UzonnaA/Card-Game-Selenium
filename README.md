@@ -1,61 +1,60 @@
-# Card Game Automation Platform
+# Card Game with Selenium Automated Testing
 
-A full-stack Spring Boot and JavaScript application simulating a turn-based card game, complete with a browser interface and Selenium-based test automation. Built to show multithreading, frontend-backend integration, and test automation skills.
+This project is a full-stack card game simulator built with **Spring Boot** and **vanilla JavaScript**. It’s designed to show backend/frontend integration, multithreading, and browser automation with **Selenium**.
+
+You can play the game locally in the browser, or run automated tests that simulate real user interactions from start to finish.
 
 ---
 
-## 📌 Features
+## 📌 What It Does
 
-### 🎮 Game Functionality
-- Simulates a multiplayer, turn-based card game with dynamic game logic.
-- Supports interactive gameplay through a web UI.
-- Players can draw, play, and manage hands in real time.
+### 🎮 Game Logic & Interface
+- Simulates a turn-based multiplayer card game, complete with drawing, playing, and managing cards.
+- The game runs interactively in the browser, letting players take turns and update stats in real time.
+- The backend handles all the logic and game flow 
+- The frontend presents it cleanly using just HTML/CSS/JavaScript.
 
-### 🧪 Automated Testing (Selenium)
-- Custom Selenium test suite simulates user interactions with the browser.
-- Tests cover multiple game states including:
-  - Game initialization
-  - Player decision points
-  - Card draws and event handling
-  - Win conditions
+### 🧪 Automated Testing with Selenium
+- The app includes a custom **Selenium test suite** that mimics how a real user would play.
+- Tests cover the full game cycle—from initialization and card events to player decisions and win conditions.
+- Great for showing end-to-end automation and UI validation.
 
-### 🌐 Backend
-- Built with **Spring Boot** using RESTful APIs.
-- Game logic runs on a background thread for real-time interaction.
+### 🌐 Backend (Spring Boot)
+- Built with **Java 17** and **Spring Boot**, exposing REST endpoints for each game action.
+- The game runs on a separate thread in the background to support live updates.
 - Endpoints include:
-  - `GET /start`, `/start1`, `/start2`, etc. for test variants
-  - `POST /input` for sending player input
-  - `GET /players`, `/console` for polling game state
-  - `POST /increment`, `/decrement`, `/hands` for advanced navigation
+  - `GET /start`, `/start1`, etc. — start different game/test modes
+  - `POST /input` — send player commands
+  - `GET /players`, `/console` — track game state
+  - `POST /increment`, `/decrement`, `/hands` — navigate output/history
 
-### 💻 Frontend
-- Built with vanilla **JavaScript**, **HTML**, and **CSS**.
-- Uses `fetch` API for real-time communication with the backend.
-- Updates UI elements based on player stats and console output.
-
----
-
-## 🛠️ Technologies Used
-
-| Category         | Tech Stack                          |
-|------------------|--------------------------------------|
-| Language         | Java 17, JavaScript                  |
-| Backend          | Spring Boot, REST APIs               |
-| Frontend         | HTML, CSS, JavaScript (vanilla)      |
-| Automation       | Selenium WebDriver                   |
-| Build Tool       | Maven                                |
-| Testing          | JUnit (for unit tests), Selenium, Cucumber     |
-| Server Hosting   | `http-server` via Node.js for static assets |
-| Networking       | CORS configured for cross-origin testing |
+### 💻 Frontend (JS/HTML/CSS)
+- Uses **vanilla JS** and the **fetch** API to stay in sync with the backend.
+- Dynamically updates the UI to show player stats and game messages as the game progresses.
 
 ---
 
-## 🚀 How to Run
+## 🛠️ Tech Stack
 
-### 🔧 Prerequisites
+| Area            | Tools & Technologies                        |
+|-----------------|---------------------------------------------|
+| Language         | Java 17, JavaScript                         |
+| Backend          | Spring Boot, REST APIs                      |
+| Frontend         | HTML, CSS, Vanilla JavaScript               |
+| Testing & QA     | Selenium WebDriver, JUnit, Cucumber         |
+| Build Tool       | Maven                                       |
+| Static Hosting   | `http-server` (via Node.js) for frontend    |
+| Network Config   | CORS support for frontend-backend separation |
+
+---
+
+## 🚀 Getting Started
+
+### 🔧 Requirements
 - Java 17
 - Node.js + npm
-- Chrome + Chromedriver (for Selenium)
+- Google Chrome + Chromedriver (for running Selenium tests)
+
 
 ### 📦 Start Backend (Spring Boot)
 ```bash
