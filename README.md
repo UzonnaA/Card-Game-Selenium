@@ -57,21 +57,22 @@ A full-stack Spring Boot and JavaScript application simulating a turn-based card
 - Node.js + npm
 - Chrome + Chromedriver (for Selenium)
 
-### 📦 Backend (Spring Boot)
+### 📦 Start Backend (Spring Boot)
 ```bash
 cd backend/A2\ -\ Backend
 mvn spring-boot:run
 ```
 
-### 📦 Frontend (HTTP Server)
+### 📦 Start Frontend (Static HTTP Server)
 ```bash
 cd ..\..\frontend
 npx http-server
 ```
-You will see available IPs, choose any of them.
-Go into test.js and change the "link" variable to a chosen IP
+You will see a list of available IPs (e.g., http://127.0.0.1:8081, http://192.168.1.x:8081, etc.)
+⚠️ Make note of the IP that you will use for testing.
+Update the link variable in test.js to match the selected IP from the previous step.
 
-### 📦 Frontend (Selenium)
+### 📦 Selenium Test Runner
 ```bash
 node test.js
 ```
