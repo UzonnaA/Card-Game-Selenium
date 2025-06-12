@@ -64,7 +64,7 @@ I wanted a fun way to practice full-stack development and show how Selenium can 
 - The test suite could be expanded to include edge cases like invalid inputs or concurrency issues.
 - Eventually I’d like to deploy the whole thing and allow live matches between two users.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 🔧 Requirements
 - Java 17
