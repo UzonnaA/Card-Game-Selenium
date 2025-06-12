@@ -1,52 +1,68 @@
-# 🃏 Card Game with Selenium Automated Testing
+# Card Game with Selenium Automated Testing
 
-This project is a full-stack card game simulator built with **Spring Boot** and **vanilla JavaScript**. It’s designed to show backend/frontend integration, multithreading, and browser automation with **Selenium**.
+A small project I built to practice backend-frontend integration, multithreading, and browser automation. It’s a turn-based multiplayer card game that you can play in the browser or test using a Selenium suite that mimics real user behavior.
 
-You can play the game locally in the browser, or run automated tests that simulate real user interactions from start to finish.
-
----
-
-## 📌 What It Does
-
-### 🎮 Game Logic & Interface
-- Simulates a turn-based multiplayer card game, complete with drawing, playing, and managing cards.
-- The game runs interactively in the browser, letting players take turns and update stats in real time.
-- The backend handles all the logic and game flow 
-- The frontend presents it cleanly using HTML/CSS/JavaScript.
-
-### 🧪 Automated Testing with Selenium
-- The app includes a custom **Selenium test suite** that mimics how a real user would play.
-- Tests cover the full game cycle, including initialization and card events to player decisions and win conditions.
-- Great for showing end-to-end automation and UI validation.
-
-### 🌐 Backend (Spring Boot)
-- Built with **Java 17** and **Spring Boot**, exposing REST endpoints for each game action.
-- The game runs on a separate thread in the background to support live updates.
-- Endpoints include:
-  - `GET /start`, `/start1`, etc. — start different game/test modes
-  - `POST /input` — send player commands
-  - `GET /players`, `/console` — track game state
-  - `POST /increment`, `/decrement`, `/hands` — navigate output/history
-
-### 💻 Frontend (JS/HTML/CSS)
-- Uses **JS** and the **fetch** API to stay in sync with the backend.
-- Dynamically updates the UI to show player stats and game messages as the game progresses.
+The goal was to go end-to-end with a game that runs entirely locally, with a Java Spring Boot backend, a basic JavaScript UI, and full test coverage that simulates interaction from startup to win conditions.
 
 ---
 
-## 🛠️ Tech Stack
+## What It Does
 
-| Area            | Tools & Technologies                        |
-|-----------------|---------------------------------------------|
-| Language         | Java 17, JavaScript                         |
-| Backend          | Spring Boot, REST APIs                      |
-| Frontend         | HTML, CSS, Vanilla JavaScript               |
-| Testing & QA     | Selenium WebDriver, JUnit, Cucumber         |
-| Build Tool       | Maven                                       |
-| Static Hosting   | `http-server` (via Node.js) for frontend    |
-| Network Config   | CORS support for frontend-backend separation |
+### Game Logic and UI
+
+- Runs a simple multiplayer card game where players take turns drawing, playing, and managing cards.
+- Frontend is kept minimal, just enough to display player stats and messages clearly.
+- Backend handles all the core logic, using threads to manage game flow independently from requests.
+
+### Automated Testing with Selenium
+
+- Includes a Selenium test suite that plays through the game by simulating actual user inputs.
+- Covers everything from game startup to checking for win conditions and verifying state updates.
+- Helps show how automation can be used for UI flow validation, not just backend testing.
+
+### Backend (Spring Boot)
+
+- Built with Java 17 using Spring Boot to expose REST endpoints.
+- Game logic runs in a separate thread so the API can remain responsive while the game plays out.
+- Key endpoints include:
+  - `/start`, `/start1` to launch different game scenarios
+  - `/input` to send player moves
+  - `/players`, `/console` to check game state
+  - `/increment`, `/decrement`, `/hands` to review and modify output
+
+### Frontend (JavaScript)
+
+- Uses fetch calls to interact with the backend and pull updates.
+- Keeps the UI in sync with the backend state during play.
+- Written in plain JavaScript to focus on understanding the logic, not the framework.
 
 ---
+
+## Tech Stack
+
+| Area            | Stack                                     |
+|-----------------|--------------------------------------------|
+| Language         | Java 17, JavaScript                        |
+| Backend          | Spring Boot, REST APIs                     |
+| Frontend         | HTML, CSS, JavaScript                      |
+| Testing          | Selenium WebDriver, JUnit, Cucumber        |
+| Build Tool       | Maven                                      |
+| Static Hosting   | `http-server` for frontend (Node.js)       |
+| Other            | CORS config to allow frontend-backend flow |
+
+---
+
+## Why I Built This
+
+I wanted a fun way to practice full-stack development and show how Selenium can go beyond login forms or button clicks. Building a card game meant I had to deal with real-time state, multi-user interaction, and clear feedback for the UI. Writing the automation afterward gave me a chance to think like a tester and see how I’d validate the game’s behavior end to end.
+
+---
+
+## Things I’d Improve
+
+- The frontend could be rewritten in a framework like React for better scalability.
+- The test suite could be expanded to include edge cases like invalid inputs or concurrency issues.
+- Eventually I’d like to deploy the whole thing and allow live matches between two users.
 
 ## 🚀 Getting Started
 
